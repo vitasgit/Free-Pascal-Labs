@@ -7,7 +7,7 @@ type
         bdate: string;
         id: string;
         childrenID: string;
-        childrenFIO: string;
+        childrenFIO: array of string;
     end;
 
 var
@@ -31,6 +31,8 @@ begin
         data[i] := person;
         i := i + 1;
         dataLenght := dataLenght + 1;
+
+        if 
     end;
 
     for j := 0 to high(data)+1 do
