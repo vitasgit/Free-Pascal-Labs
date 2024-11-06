@@ -14,6 +14,7 @@ var
     person: TPerson;
     data: array of TPerson;
     i, j, dataLenght: integer;
+    s: string;
 
 begin
     i := 0;
@@ -28,20 +29,24 @@ begin
         readln(person.bdate);
         readln(person.id);
 
+        readln(s);
+        while s <> '' do
+        begin
+            readln(person.childrenID);
+        end;
+
         data[i] := person;
         i := i + 1;
         dataLenght := dataLenght + 1;
-
-        if 
     end;
 
     for j := 0 to high(data)+1 do
     begin
         writeln(j+1, ')');
-        writeln(data[j].fio);
-        writeln(data[j].gender);
-        writeln(data[j].bdate);
-        writeln(data[j].id);
+        writeln('ФИО: ', data[j].fio);
+        writeln('Пол: ', data[j].gender);
+        writeln('рожд: ', data[j].bdate);
+        writeln('Номер: ', data[j].id);
         writeln();
     end;
 end.
