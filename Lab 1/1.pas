@@ -6,18 +6,20 @@ type
         gender: string;
         bdate: string;
         id: string;
-        childrenID: string;
+        childrenID: array of string;
         childrenFIO: array of string;
     end;
 
 var
     person: TPerson;
     data: array of TPerson;
-    i, j, dataLenght: integer;
+    i, j, k, g, dataLenght: integer;
     s: string;
 
 begin
     i := 0;
+    k := 0;  // индекс массива детей
+    g := 0;  // вывод детей
 
     dataLenght := 1;
     setLength(data, dataLenght);
@@ -32,12 +34,16 @@ begin
         readln(s);
         while s <> '' do
         begin
-            readln(person.childrenID);
+			person.childrenID[k] := s;
+			k := k + 1;
+            readln(s);
         end;
+        k := 0;  // ошибка
 
         data[i] := person;
         i := i + 1;
         dataLenght := dataLenght + 1;
+        setLength(data, dataLenght);
     end;
 
     for j := 0 to high(data)+1 do
@@ -47,7 +53,8 @@ begin
         writeln('Пол: ', data[j].gender);
         writeln('рожд: ', data[j].bdate);
         writeln('Номер: ', data[j].id);
-        writeln();
+        writeln('Дети: ');
+        
+        for g := 0 to high(data[j].childrenID)+1 do writeln (data[j].childrenID[g]);
     end;
 end.
-
