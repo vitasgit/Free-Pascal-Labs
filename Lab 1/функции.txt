@@ -1,0 +1,82 @@
+program n01;
+
+type
+    TPerson = record
+        fio: string;
+        gender: string;
+        bdate: string;
+        id: string;
+        childrenID: array of string;
+    end;
+
+var
+    data: array of TPerson;
+    i, dataLength: integer;
+
+{ Функция для чтения информации о человеке }
+function ReadPerson(): TPerson;
+var
+    person: TPerson;
+begin
+    readln(person.fio);
+    readln(person.gender);
+    readln(person.bdate);
+    readln(person.id);
+    person.childrenID := ReadChildren();
+    ReadPerson := person;
+end;
+
+{ Функция для чтения списка детей }
+function ReadChildren(): array of string;
+var
+    children: array of string;
+    s: string;
+begin
+    SetLength(children, 0);
+    readln(s);
+    while s <> '' do
+    begin
+        SetLength(children, Length(children) + 1);
+        children[High(children)] := s;
+        readln(s);
+    end;
+    ReadChildren := children;
+end;
+
+{ Функция для вывода информации о человеке }
+procedure PrintPerson(person: TPerson; index: integer);
+var
+    g: integer;
+begin
+    writeln(index + 1, ')');
+    writeln('ФИО: ', person.fio);
+    writeln('Пол: ', person.gender);
+    writeln('рожд: ', person.bdate);
+    writeln('Номер: ', person.id);
+    writeln('Дети:');
+    for g := 0 to High(person.childrenID) do
+        writeln(person.childrenID[g]);
+end;
+
+begin
+    i := 0;
+    dataLength := 1;
+    SetLength(data, dataLength);
+
+    { Чтение данных }
+    while not eof do
+    begin
+        if i >= dataLength then
+        begin
+            dataLength := dataLength + 1;
+            SetLength(data, dataLength);
+        end;
+
+        data[i] := ReadPerson();
+        i := i + 1;
+    end;
+
+    { Вывод данных }
+    for i := 0 to High(data) do
+        PrintPerson(data[i], i);
+end.
