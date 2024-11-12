@@ -7,23 +7,22 @@ type
         bdate: string;
         id: string;
         childrenID: array of string;
-        childrenFIO: array of string;
+        //childrenFIO: array of string;
     end;
 
 var
     person: TPerson;
     data: array of TPerson;
-    i, j, k, g, dataLenght, childrenIDLenght: integer;
+    i, j, k, g, g2, dataLenght, childrenIDLenght: integer;
     s: string;
 
 begin
     i := 0;
-    k := 0;  // индекс массива детей
-    g := 0;  // вывод детей
 
     dataLenght := 1;
     setLength(data, dataLenght);
 
+    // считывание данных
     while not eof do
     begin
         readln(person.fio);
@@ -34,7 +33,7 @@ begin
 		childrenIDLenght := 1;
 		setLength(person.childrenID, childrenIDLenght);
 		
-		k := 0;  // ошибка
+		k := 0;  // индекс массива детей
         readln(s);
         while s <> '' do
         begin
@@ -52,6 +51,7 @@ begin
         setLength(data, dataLenght);
     end;
 
+    // вывод
     for j := 0 to i-1 do
     begin
         writeln(j+1, ')');
@@ -61,8 +61,20 @@ begin
         writeln('Номер: ', data[j].id);
         writeln('Дети: ');
         
-        for g := 0 to high(data[j].childrenID) do writeln (data[j].childrenID[g]);
-        
+        for g := 0 to high(data[j].childrenID) do
+        begin
+            writeln(data[j].childrenID[g]);
+
+            for g2 := 0 to i-1 do
+            begin
+                if data[g2].id = data[j].childrenID[g] then
+                begin
+                    writeln(data[g2].fio);
+                    break;
+                end;
+            end;
+        end;
+
         writeln();
     end;
 end.
