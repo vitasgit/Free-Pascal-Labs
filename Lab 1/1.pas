@@ -14,7 +14,7 @@ var
     person: TPerson;
     data: array of TPerson;
     i, j, k, g, g2, dataLenght, childrenIDLenght: integer;
-    s: string;
+    s, day: string;
 
 begin
     i := 0;
@@ -77,4 +77,21 @@ begin
 
         writeln();
     end;
+
+    // Дана дата, найти всех женщин, родившихся в этот день
+    //day := '06.12';
+    write('Введите дату для поиска женщин: ');
+    readln(day);  // не работает readln()
+
+    for j := 0 to i-1 do
+    begin
+        if (data[j].gender = 'женский') and (copy(data[j].bdate, 1, 5) = day) then
+        begin
+            writeln('ФИО: ', data[j].fio);
+            writeln('Пол: ', data[j].gender);
+            writeln('рожд: ', data[j].bdate);
+            writeln();
+        end;
+    end;
+
 end.
