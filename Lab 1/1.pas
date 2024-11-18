@@ -14,7 +14,8 @@ var
     person: TPerson;
     data: array of TPerson;
     i, j, k, g, g2, dataLenght, childrenIDLenght: integer;
-    s, day: string;
+    s, day, checkID: string;
+    find: Boolean;
 
 begin
     i := 0;
@@ -45,7 +46,6 @@ begin
             readln(s);
         end;
         
-        //setLength(person.childrenID, k);
         data[i] := person;
         i := i + 1;
         dataLenght := dataLenght + 1;
@@ -60,8 +60,8 @@ begin
         writeln('Пол: ', data[j].gender);
         writeln('рожд: ', data[j].bdate);
         writeln('Номер: ', data[j].id);
-        writeln('Дети: ');
         
+        writeln('Дети: ');
         for g := 0 to high(data[j].childrenID) do
         begin
             writeln(data[j].childrenID[g]);
@@ -79,8 +79,11 @@ begin
         writeln();
     end;
 
+    writeln('---- задания -----');
+
     // Дана дата, найти всех женщин, родившихся в этот день
     day := '06.12';
+    writeln('1) Поиск по дате:');
 
     for j := 0 to i-1 do
     begin
@@ -90,6 +93,86 @@ begin
             writeln('Пол: ', data[j].gender);
             writeln('рожд: ', data[j].bdate);
             writeln();
+        end;
+    end;
+
+    // Дан номер удостоверения личности ребенка, найти его родителей
+    checkID := 'a123654';
+    writeln('2) Поиск родителей:');
+
+    for j := 0 to i-1 do
+    begin
+        for g := 0 to high(data[j].childrenID[g]) do
+        begin
+            if data[j].childrenID[g] = checkID then
+                begin
+                    writeln('ФИО: ', data[j].fio);
+                    writeln('Пол: ', data[j].gender);
+                    writeln('рожд: ', data[j].bdate);
+                    writeln('Номер: ', data[j].id);
+                    
+                    writeln('Дети:');
+                    for g2 := 0 to high(data[j].childrenID) do
+                    begin
+                        writeln(data[j].childrenID[g2]);
+                    end;
+
+                    writeln();
+                end;
+        end;
+    end;
+    
+    // Найти всех дедушек
+    writeln('3) Поиск дедушек:');
+    for j := 0 to i-1 do
+    begin
+        find := False;
+
+        if data[j].gender = 'мужской' then
+        begin
+            for g := 0 to high(data[j].childrenID) do
+            begin
+                if find then break;
+
+                for k := 0 to i-1 do
+                begin
+                    if (data[j].childrenID[g] = data[k].id) and (data[k].childrenID[0] <> '---') then
+                    begin
+                        writeln('Дедушка: ', data[j].fio);
+                        find := True;
+                        break;
+                    end;
+                end;
+            end;
+        end;
+    end;
+    writeln();
+
+    // Найти всех сирот
+    writeln('4) Поиск сирот:');
+    for j := 0 to i-1 do
+    begin
+        find := False;
+
+        for g := 0 to i-1 do
+        begin
+            if find then break;
+
+            if g = 9 then
+            begin
+                writeln('Сирота: ', data[j].fio);
+                break;
+            end;
+
+            for k := 0 to high(data[g].childrenID[k]) do
+            begin
+
+                if data[j].id = data[g].childrenID[k] then
+                begin
+                    find := True;
+                    break;
+                end;
+            end;
         end;
     end;
 
