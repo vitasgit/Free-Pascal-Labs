@@ -51,6 +51,7 @@ begin
         dataLenght := dataLenght + 1;
         setLength(data, dataLenght);
     end;
+    setLength(data, i);
 
     // вывод
     for j := 0 to i-1 do
@@ -158,13 +159,7 @@ begin
         begin
             if find then break;
 
-            if g = 9 then
-            begin
-                writeln('Сирота: ', data[j].fio);
-                break;
-            end;
-
-            for k := 0 to high(data[g].childrenID[k]) do
+            for k := 0 to high(data[g].childrenID) do
             begin
 
                 if data[j].id = data[g].childrenID[k] then
@@ -174,6 +169,9 @@ begin
                 end;
             end;
         end;
-    end;
 
+        if not find then
+            writeln('Сирота: ', data[j].fio);
+    end;
+    
 end.
