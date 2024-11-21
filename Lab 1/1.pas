@@ -7,7 +7,6 @@ type
         bdate: string;
         id: string;
         childrenID: array of string;
-        //childrenFIO: array of string;
     end;
 
 var
@@ -20,12 +19,15 @@ var
 begin
     i := 0;
 
-    dataLenght := 1;
+    dataLenght := 0;
     setLength(data, dataLenght);
 
     // считывание данных
     while not eof do
     begin
+        dataLenght := dataLenght + 1;
+        setLength(data, dataLenght);
+
         readln(person.fio);
         readln(person.gender);
         readln(person.bdate);
@@ -48,10 +50,8 @@ begin
         
         data[i] := person;
         i := i + 1;
-        dataLenght := dataLenght + 1;
-        setLength(data, dataLenght);
     end;
-    setLength(data, i);
+    //setLength(data, i);
 
     // вывод
     for j := 0 to i-1 do
@@ -65,16 +65,22 @@ begin
         writeln('Дети: ');
         for g := 0 to high(data[j].childrenID) do
         begin
-            writeln(data[j].childrenID[g]);
+            find := False;
+            if data[j].childrenID[g] <> '---' then
+                writeln('id: ', data[j].childrenID[g]);
 
             for g2 := 0 to i-1 do
             begin
                 if data[g2].id = data[j].childrenID[g] then
                 begin
-                    writeln(data[g2].fio);
+                    find := True;
+                    writeln('ФИО: ', data[g2].fio);
                     break;
                 end;
             end;
+
+            if not find then
+                writeln('ФИО: ---');
         end;
 
         writeln();
@@ -173,5 +179,4 @@ begin
         if not find then
             writeln('Сирота: ', data[j].fio);
     end;
-    
 end.
