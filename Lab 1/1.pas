@@ -109,26 +109,26 @@ begin
 
     for j := 0 to i-1 do
     begin
-        for g := 0 to high(data[j].childrenID[g]) do
+        for g := 0 to high(data[j].childrenID) do
         begin
             if data[j].childrenID[g] = checkID then
+            begin
+                writeln('ФИО: ', data[j].fio);
+                writeln('Пол: ', data[j].gender);
+                writeln('рожд: ', data[j].bdate);
+                writeln('Номер: ', data[j].id);
+                
+                writeln('Дети:');
+                for g2 := 0 to high(data[j].childrenID) do
                 begin
-                    writeln('ФИО: ', data[j].fio);
-                    writeln('Пол: ', data[j].gender);
-                    writeln('рожд: ', data[j].bdate);
-                    writeln('Номер: ', data[j].id);
-                    
-                    writeln('Дети:');
-                    for g2 := 0 to high(data[j].childrenID) do
-                    begin
-                        writeln(data[j].childrenID[g2]);
-                    end;
-
-                    writeln();
+                    writeln(data[j].childrenID[g2]);
                 end;
+
+                writeln();
+            end;
         end;
     end;
-    
+
     // Найти всех дедушек
     writeln('3) Поиск дедушек:');
     for j := 0 to i-1 do
