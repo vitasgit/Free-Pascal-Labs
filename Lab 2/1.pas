@@ -135,13 +135,39 @@ begin
     end;
 end;
 
+
+ { аналог операции +, возвращает новое множество минимально необходимого размера}
+function sumSet(set1,set2:TLongSet):TLongSet; 
+var
+    len: integer;
+    resSet: TLongSet;
+begin
+    len := Length(set1) + Length(set2);
+    setLength(resSet, len);
+
+    
+    
+    result := resSet;
+end;
+
+
 var 
     mySet: TLongSet;
+    set1, set2: TLongSet;
 
 begin
     mySet := createSet(3);
     writeln('массив: ', Length(mySet));
-    //printSet(mySet);
+    
+    set1 := createSet(3);
+    set2 := createSet(3);
+    writeln('массив1: ', Length(set1));
+    writeln('массив2: ', Length(set2));
+
+    mySet := sumSet(set1, set2);
+    writeln('массив(+): ', Length(mySet));
+    printSet(mySet);
+
     
 
 end.
