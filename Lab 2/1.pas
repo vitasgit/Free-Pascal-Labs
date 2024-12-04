@@ -95,13 +95,6 @@ begin
             result := true;
             break;
         end;
-        // for j := 0 to 255 do
-        // begin
-        //     if (j = e) and (j in bSet[i]) then
-        //     begin
-        //         result := true;
-        //     end;
-        // end;
     end;
 end;
 
