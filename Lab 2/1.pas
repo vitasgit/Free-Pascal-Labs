@@ -111,6 +111,26 @@ begin
 end;
 
 
+{ аналог операции -, возвращает новое множество минимально необходимого размера}
+function subSet(set1,set2:TLongSet):TLongSet; 
+var
+    rSet: TLongSet;
+    len: integer;
+begin
+    if length(set1) > length(set2) then 
+    begin
+        len := length(set1) - length(set2);
+    end
+    else
+    begin
+        len := length(set2) - length(set1);
+    end;
+
+    setLength(rSet, len);
+    result := rSet;
+end;
+
+
 var 
     mySet: TLongSet;
     set1, set2, set3: TLongSet;
@@ -120,11 +140,11 @@ begin
     mySet := createSet(320);
     writeln('массив: ', length(mySet));
 
-    set1 := createSet(3);
-    set2 := createSet(300);
-
-    set3 := sumSet(set1, set2);
-    
+    set1 := createSet(320);
+    set2 := createSet(769);
+    set3 := subSet(set2, set1);
     writeln(length(set3));
+    writeln(getSize(set3));
+
 
 end.
