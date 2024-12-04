@@ -112,19 +112,28 @@ end;
 
 
  { аналог операции in }
-// function inSet(bSet:TLongSet; e:integer):boolean;
-// var
-//     i: integer;
-//     j: byte;
-// begin
-//     for i := 0 to Length(bSet)-1 do
-//     begin
-//         for j := 0 to 255 do
-//         begin
-//             if bSet[i]
-//         end;
-//     end;
-// end;
+function inSet(bSet:TLongSet; e:integer):boolean;
+var
+    i: integer;
+    j: byte;
+begin
+    result := false;
+    for i := 0 to Length(bSet)-1 do
+    begin
+        if e in bSet[i] then
+        begin
+            result := true;
+            break;
+        end;
+        // for j := 0 to 255 do
+        // begin
+        //     if (j = e) and (j in bSet[i]) then
+        //     begin
+        //         result := true;
+        //     end;
+        // end;
+    end;
+end;
 
 var 
     mySet: TLongSet;
@@ -132,7 +141,7 @@ var
 begin
     mySet := createSet(3);
     writeln('массив: ', Length(mySet));
-    printSet(mySet);
-
+    //printSet(mySet);
+    
 
 end.
