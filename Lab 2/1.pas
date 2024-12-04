@@ -85,7 +85,6 @@ end;
 function inSet(bSet:TLongSet; e:integer):boolean;
 var
     i: integer;
-    j: byte;
 begin
     result := false;
     for i := 0 to Length(bSet)-1 do
@@ -102,31 +101,30 @@ end;
  { аналог операции +, возвращает новое множество минимально необходимого размера}
 function sumSet(set1,set2:TLongSet):TLongSet; 
 var
+    rSet: TLongSet;
     len: integer;
-    resSet: TLongSet;
 begin
     len := Length(set1) + Length(set2);
-    setLength(resSet, len);
+    setLength(rSet, len);
 
-    
-    
-    result := resSet;
+    result := rSet;
 end;
 
 
 var 
     mySet: TLongSet;
-    set1, set2: TLongSet;
+    set1, set2, set3: TLongSet;
+    i: integer;
 
 begin
     mySet := createSet(320);
     writeln('массив: ', length(mySet));
 
-    writeln(getSize(mySet));
+    set1 := createSet(3);
+    set2 := createSet(300);
 
-    fillSet(mySet);
-    printSet(mySet);
-
+    set3 := sumSet(set1, set2);
     
+    writeln(length(set3));
 
 end.
