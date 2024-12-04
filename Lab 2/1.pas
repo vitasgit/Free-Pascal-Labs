@@ -36,7 +36,7 @@ begin
     begin
         for j := 0 to 255 do
         begin
-            resSet[i] := resSet[i] + [j];
+            resSet[i] += [j];
         end;
     end;
     
@@ -63,7 +63,7 @@ begin
         begin
             for j := 0 to 255 do
             begin
-                dstSet[i] := dstSet[i] + [i];
+                dstSet[i] += [j];
             end;
         end;
     end;
@@ -108,9 +108,11 @@ begin
     mySet := createSet(3);
     writeln('массив: ', Length(mySet));
 
-    writeln(getSize(mySet));
+    // setSize(mySet, 320);
+    // printSet(mySet);
+    // writeln(getSize(mySet));
 
-    mySet := createSet(321);
-    writeln(getSize(mySet));
+    // // mySet := createSet(321);
+    // // writeln(getSize(mySet));
 
 end.
