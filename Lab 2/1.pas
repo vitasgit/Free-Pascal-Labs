@@ -6,18 +6,31 @@ type
     TSingleSet = set of byte;
     TLongSet = array of TSingleSet;
 
+
+procedure fillSet(mySet:TLongSet);
+var
+    i: integer;
+begin
+    for i := 0 to length(mySet)-1 do
+    begin
+        mySet[i] := [0..255];
+    end;
+end;
+
+// поменять тип переменной j
 procedure printSet(mySet:TLongSet);
 var
     i: integer;
     j: byte;
 begin
-    for i := 0 to high(mySet) do
+    for i := 0 to length(mySet)-1 do
     begin
         for j := 0 to 255 do
         begin
             if j in mySet[i] then
-                writeln(j);
+                write(j:4);
         end;
+        writeln();
     end;
 end;
 
@@ -25,22 +38,13 @@ end;
    реальное кол-во элементов всегда будет выравнено по границе, кратной 256 }
 function createSet(count:integer):TLongSet;
 var
-    resSet: TLongSet;
-    i, len: integer;
-    j: byte;
+    rSet: TLongSet;
+    len: integer;
 begin
     len := ((count + 255) div 256);
-    setLength(resSet, len);
-
-    for i := 0 to len-1 do
-    begin
-        for j := 0 to 255 do
-        begin
-            resSet[i] += [j];
-        end;
-    end;
+    setLength(rSet, len);
     
-    result := resSet;
+    result := rSet;
 end;
 
 
@@ -49,53 +53,17 @@ end;
    в последнем случае возможна утеря элементов }
 procedure setSize(var dstSet:TLongSet; newCount:integer);
 var
-    newLen, oldLen: integer;
-    i: integer;
-    j: byte;
+    newLen: integer;
 begin
-    oldLen := Length(dstSet);
     newLen := ((newCount + 255) div 256);
     setLength(dstSet, newLen);
-
-    if oldLen < newLen then
-    begin
-        for i := oldLen to newLen-1 do
-        begin
-            for j := 0 to 255 do
-            begin
-                dstSet[i] += [j];
-            end;
-        end;
-    end;
-
-    // if oldLen < newLen then
-    // begin
-    //     for i := oldLen to newLen-1 do
-    //     begin
-    //         dstSet[i] := []
-    //     end;
-    // end;
 end;
 
 
  { получение размера множества (кратно 256) }
 function getSize(bSet:TLongSet): integer;
-var
-    i, counter: integer;
-    j: byte;
-    
 begin
-    counter := 0;
-    for i := 0 to high(bSet) do
-    begin
-        for j := 0 to 255 do
-        begin
-            if j in bSet[i] then
-                counter += 1;
-        end;
-    end;
-
-    result := counter;
+    result := length(bSet) * 256;
 end;
 
 
@@ -104,10 +72,12 @@ procedure destroySet(var dstSet:TLongSet);
 var
     i: integer;
 begin
-    for i := 0 to Length(dstSet)-1 do
-    begin
-        dstSet[i] := [];
-    end;
+    setLength(dstSet, 0);
+
+    // for i := 0 to Length(dstSet)-1 do
+    // begin
+    //     dstSet[i] := [];
+    // end;
 end;
 
 
@@ -156,16 +126,12 @@ var
     set1, set2: TLongSet;
 
 begin
-    mySet := createSet(3);
-    writeln('массив: ', Length(mySet));
-    
-    set1 := createSet(3);
-    set2 := createSet(3);
-    writeln('массив1: ', Length(set1));
-    writeln('массив2: ', Length(set2));
+    mySet := createSet(320);
+    writeln('массив: ', length(mySet));
 
-    mySet := sumSet(set1, set2);
-    writeln('массив(+): ', Length(mySet));
+    writeln(getSize(mySet));
+
+    fillSet(mySet);
     printSet(mySet);
 
     
