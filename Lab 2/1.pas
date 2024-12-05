@@ -102,10 +102,19 @@ end;
 function sumSet(set1,set2:TLongSet):TLongSet; 
 var
     rSet: TLongSet;
-    len: integer;
+    i, j, len: integer;
+    k: byte;
 begin
-    len := Length(set1) + Length(set2);
+    len := 1;
     setLength(rSet, len);
+    
+    for i := 0 to length(set1)-1 do
+    begin
+        for j := 0 to length(set2)-1 do
+        begin
+            rSet[0] := set1[i] + set2[j];
+        end;
+    end;
 
     result := rSet;
 end;
@@ -132,6 +141,7 @@ end;
 
 
 { аналог операции *, возвращает новое множество минимально необходимого размера}
+// убрать hardcode
 function mulSet(set1,set2:TLongSet):TLongSet;
 var
     rSet: TLongSet;
@@ -172,13 +182,13 @@ begin
     set1 := createSet(10);
     set2 := createSet(15);
 
-    set1[0] := [0..15];
-    set2[0] := [10..20];
+    set1[0] := [20..25];
+    set2[0] := [1..5];
 
     printSet(set1);
     printSet(set2);
 
-    set3:= mulSet(set1, set2);
+    set3:= sumSet(set1, set2);
     writeln('массив: ', length(set3));
     printSet(set3);
 
