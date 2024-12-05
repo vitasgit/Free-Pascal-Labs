@@ -136,10 +136,24 @@ function mulSet(set1,set2:TLongSet):TLongSet;
 var
     rSet: TLongSet;
     len: integer;
+    i, j: integer;
+    k: byte;
 begin
-    if length(set1) > length(set2) then
+    len := 1;
+    setLength(rSet, len);
+
+    for i := 0 to length(set1)-1 do
     begin
-        len := length(set1) - length(set2);
+        for j := 0 to length(set2)-1 do
+        begin
+            for k := 0 to 255 do
+            begin
+                if (k in set1[i]) and (k in set2[j]) then
+                begin
+                    rSet[0] += [k];
+                end;
+            end;
+        end;
     end;
 
     result := rSet;
@@ -155,22 +169,18 @@ begin
     mySet := createSet(320);
     writeln('массив: ', length(mySet));
 
-    setSize(mySet, 3);
-    writeln('массив: ', length(mySet));
-    setSize(mySet, 300);
-    writeln('массив: ', length(mySet));
+    set1 := createSet(10);
+    set2 := createSet(15);
 
-    set1 := createSet(3);
-    set2 := createSet(3);
-    set3 := mulSet(set1, set2);
-    
-    fillSet(set1);
-    fillSet(set2);
+    set1[0] := [0..15];
+    set2[0] := [10..20];
 
     printSet(set1);
+    printSet(set2);
 
-    writeln(length(set3));
-    writeln(getSize(set3));
+    set3:= mulSet(set1, set2);
+    writeln('массив: ', length(set3));
+    printSet(set3);
 
 
 end.
