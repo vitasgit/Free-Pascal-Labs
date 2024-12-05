@@ -131,6 +131,21 @@ begin
 end;
 
 
+{ аналог операции *, возвращает новое множество минимально необходимого размера}
+function mulSet(set1,set2:TLongSet):TLongSet;
+var
+    rSet: TLongSet;
+    len: integer;
+begin
+    if length(set1) > length(set2) then
+    begin
+        len := length(set1) - length(set2);
+    end;
+
+    result := rSet;
+end;
+
+
 var 
     mySet: TLongSet;
     set1, set2, set3: TLongSet;
@@ -140,9 +155,20 @@ begin
     mySet := createSet(320);
     writeln('массив: ', length(mySet));
 
-    set1 := createSet(320);
-    set2 := createSet(769);
-    set3 := subSet(set2, set1);
+    setSize(mySet, 3);
+    writeln('массив: ', length(mySet));
+    setSize(mySet, 300);
+    writeln('массив: ', length(mySet));
+
+    set1 := createSet(3);
+    set2 := createSet(3);
+    set3 := mulSet(set1, set2);
+    
+    fillSet(set1);
+    fillSet(set2);
+
+    printSet(set1);
+
     writeln(length(set3));
     writeln(getSize(set3));
 
