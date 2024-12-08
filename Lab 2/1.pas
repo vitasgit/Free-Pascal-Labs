@@ -17,7 +17,7 @@ begin
     end;
 end;
 
-// поменять тип переменной j
+
 procedure printSet(mySet:TLongSet);
 var
     i: integer;
@@ -33,6 +33,7 @@ begin
         writeln();
     end;
 end;
+
 
  { создание множества на count элементов
    реальное кол-во элементов всегда будет выравнено по границе, кратной 256 }
@@ -105,15 +106,21 @@ var
     i, j, len: integer;
     k: byte;
 begin
-    len := 1;
+    if length(set1) >= length(set2) then
+        len := length(set1)
+    else
+        len := length(set2);
+
     setLength(rSet, len);
     
     for i := 0 to length(set1)-1 do
     begin
-        for j := 0 to length(set2)-1 do
-        begin
-            rSet[0] := set1[i] + set2[j];
-        end;
+        rSet[i] += set1[i];
+    end;
+
+    for i := 0 to length(set2)-1 do
+    begin
+        rSet[i] += set2[i];
     end;
 
     result := rSet;
@@ -126,16 +133,7 @@ var
     rSet: TLongSet;
     len: integer;
 begin
-    if length(set1) > length(set2) then 
-    begin
-        len := length(set1) - length(set2);
-    end
-    else
-    begin
-        len := length(set2) - length(set1);
-    end;
-
-    setLength(rSet, len);
+    
     result := rSet;
 end;
 
@@ -176,21 +174,27 @@ var
     i: integer;
 
 begin
-    mySet := createSet(320);
-    writeln('массив: ', length(mySet));
+    // mySet := createSet(3);
+    // writeln('массив: ', length(mySet));
 
-    set1 := createSet(10);
-    set2 := createSet(15);
-
-    set1[0] := [20..25];
-    set2[0] := [1..5];
-
+    set1 := createSet(3);
+    set2 := createSet(300);
+    
+    set1[0] := [0..10];
+    set2[0] := [0..15];
+    set2[1] := [0..5];
     printSet(set1);
+    writeln();
     printSet(set2);
+    writeln();
 
-    set3:= sumSet(set1, set2);
-    writeln('массив: ', length(set3));
+    set3 := sumSet(set1, set2);
     printSet(set3);
+    writeln('массив3: ', length(set3));
+
+
+    
+    
 
 
 end.
