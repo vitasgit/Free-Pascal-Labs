@@ -62,6 +62,7 @@ end;
 
 
  { получение размера множества (кратно 256) }
+ // SizeOf(set)*8
 function getSize(bSet:TLongSet): integer;
 begin
     result := length(bSet) * 256;
@@ -103,8 +104,7 @@ end;
 function sumSet(set1,set2:TLongSet):TLongSet; 
 var
     rSet: TLongSet;
-    i, j, len: integer;
-    k: byte;
+    i, len: integer;
 begin
     if length(set1) >= length(set2) then
         len := length(set1)
@@ -112,7 +112,7 @@ begin
         len := length(set2);
 
     setLength(rSet, len);
-    
+
     for i := 0 to length(set1)-1 do
     begin
         rSet[i] += set1[i];
@@ -128,12 +128,37 @@ end;
 
 
 { аналог операции -, возвращает новое множество минимально необходимого размера}
+// учесть минимальный размер
 function subSet(set1,set2:TLongSet):TLongSet; 
 var
-    rSet: TLongSet;
-    len: integer;
+    rSet, tmpSet: TLongSet;
+    i, el, len, diff, stop: integer;
 begin
-    
+    len := length(set1);
+    setLength(rSet, len);
+
+    diff := abs(length(set1) - length(set2));
+
+    // нужел ли stop
+    if length(set1) >= length(set2) then
+    begin
+        stop := length(set1) - diff;
+    end
+    else
+    begin
+        stop := length(set2) - diff;
+    end;
+
+    for i := 0 to stop-1 do
+    begin
+        rSet[i] := set1[i] - set2[i];
+    end;
+
+    for i := 0 to length(set1)-1 do
+    begin
+
+    end;
+
     result := rSet;
 end;
 
@@ -177,18 +202,20 @@ begin
     // mySet := createSet(3);
     // writeln('массив: ', length(mySet));
 
-    set1 := createSet(3);
+    set1 := createSet(300);
     set2 := createSet(300);
     
-    set1[0] := [0..10];
-    set2[0] := [0..15];
-    set2[1] := [0..5];
+    set1[0] := [0..15];
+    set1[1] := [15..25];
+    set2[0] := [0..5];
+    set2[1] := [15..20];
     printSet(set1);
     writeln();
     printSet(set2);
     writeln();
 
-    set3 := sumSet(set1, set2);
+    set3 := subSet(set1, set2);
+    writeln('set3');
     printSet(set3);
     writeln('массив3: ', length(set3));
 
