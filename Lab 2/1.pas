@@ -128,63 +128,54 @@ end;
 
 
 { аналог операции -, возвращает новое множество минимально необходимого размера}
-// учесть минимальный размер
 function subSet(set1,set2:TLongSet):TLongSet; 
 var
-    rSet, tmpSet: TLongSet;
-    i, el, len, diff, stop: integer;
+    rSet: TLongSet;
+    i, len: integer;
 begin
-    len := length(set1);
+    if length(set1) >= length(set2) then
+        len := length(set2)
+    else
+        len := length(set1);
+
     setLength(rSet, len);
 
-    diff := abs(length(set1) - length(set2));
-
-    // нужел ли stop
-    if length(set1) >= length(set2) then
-    begin
-        stop := length(set1) - diff;
-    end
-    else
-    begin
-        stop := length(set2) - diff;
-    end;
-
-    for i := 0 to stop-1 do
+    for i := 0 to len-1 do
     begin
         rSet[i] := set1[i] - set2[i];
     end;
 
-    for i := 0 to length(set1)-1 do
-    begin
-
-    end;
+    // for i := 0 to length(rSet)-1 do
+    // begin
+    //     if rSet[i] = [] then
+    //         setLength(rSet, len-1);
+    // end;    
 
     result := rSet;
 end;
 
 
 { аналог операции *, возвращает новое множество минимально необходимого размера}
-// убрать hardcode
 function mulSet(set1,set2:TLongSet):TLongSet;
 var
     rSet: TLongSet;
-    len: integer;
-    i, j: integer;
-    k: byte;
+    i, len: integer;
+    el: byte;
 begin
-    len := 1;
-    setLength(rSet, len);
+    if length(set1) >= length(set2) then
+        len := length(set2)
+    else
+        len := length(set1);
 
-    for i := 0 to length(set1)-1 do
+    setLength(rSet, len);
+    
+    for i := 0 to len-1 do
     begin
-        for j := 0 to length(set2)-1 do
+        for el := 0 to 255 do
         begin
-            for k := 0 to 255 do
+            if (el in set1[i]) and (el in set2[i]) then
             begin
-                if (k in set1[i]) and (k in set2[j]) then
-                begin
-                    rSet[0] += [k];
-                end;
+                rSet[i] += [el];
             end;
         end;
     end;
@@ -202,26 +193,25 @@ begin
     // mySet := createSet(3);
     // writeln('массив: ', length(mySet));
 
+
     set1 := createSet(300);
     set2 := createSet(300);
     
-    set1[0] := [0..15];
-    set1[1] := [15..25];
-    set2[0] := [0..5];
-    set2[1] := [15..20];
+    set1[0] := [];
+    set1[1] := [];
+    set2[0] := [];
+    set2[1] := [];
+    writeln('set1');
     printSet(set1);
     writeln();
+    writeln('set2');
     printSet(set2);
     writeln();
 
-    set3 := subSet(set1, set2);
+    set3 := mulSet(set1, set2);
     writeln('set3');
     printSet(set3);
     writeln('массив3: ', length(set3));
-
-
-    
-    
 
 
 end.
