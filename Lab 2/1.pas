@@ -101,6 +101,7 @@ end;
 
 
  { аналог операции +, возвращает новое множество минимально необходимого размера}
+ // исправить 
 function sumSet(set1,set2:TLongSet):TLongSet; 
 var
     rSet: TLongSet;
@@ -131,27 +132,22 @@ end;
 function subSet(set1,set2:TLongSet):TLongSet; 
 var
     rSet: TLongSet;
-    i, len: integer;
+    i: integer;
+    el: byte;
 begin
-    if length(set1) >= length(set2) then
-        len := length(set2)
-    else
-        len := length(set1);
+    setLength(rSet, length(set1));
 
-    setLength(rSet, len);
-
-    for i := 0 to len-1 do
+    for i := 0 to length(set1)-1 do
     begin
-        rSet[i] := set1[i] - set2[i];
+        for el := 0 to 255 do
+        begin
+            if (el in set1[i]) and not(el in set2[i]) then
+                rSet[i] += [el];
+        end;
     end;
 
-    // for i := 0 to length(rSet)-1 do
-    // begin
-    //     if rSet[i] = [] then
-    //         setLength(rSet, len-1);
-    // end;    
-
     result := rSet;
+
 end;
 
 
@@ -174,9 +170,7 @@ begin
         for el := 0 to 255 do
         begin
             if (el in set1[i]) and (el in set2[i]) then
-            begin
                 rSet[i] += [el];
-            end;
         end;
     end;
 
@@ -195,12 +189,12 @@ begin
 
 
     set1 := createSet(300);
-    set2 := createSet(300);
+    set2 := createSet(3);
     
-    set1[0] := [];
-    set1[1] := [];
-    set2[0] := [];
-    set2[1] := [];
+    set1[0] := [1..10];
+    set1[1] := [10..15];
+    set2[0] := [5..9];
+    //set2[1] := [13..15];
     writeln('set1');
     printSet(set1);
     writeln();
@@ -208,7 +202,7 @@ begin
     printSet(set2);
     writeln();
 
-    set3 := mulSet(set1, set2);
+    set3 := subSet(set1, set2);
     writeln('set3');
     printSet(set3);
     writeln('массив3: ', length(set3));
