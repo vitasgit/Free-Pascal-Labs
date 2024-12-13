@@ -110,31 +110,13 @@ begin
 
     for i := 0 to length(set1)-1 do
     begin
-        for el := 0 to 255 do
-        begin
-            if el in set1[i] then
-                rSet[i] += [el];
-        end;
+        rSet[i] += set1[i];
     end;
 
     for i := 0 to length(set2)-1 do
     begin
-        for el := 0 to 255 do
-        begin
-            if el in set2[i] then
-                rSet[i] += [el];
-        end;
+        rSet[i] += set2[i];
     end;
-
-    // for i := 0 to length(set1)-1 do
-    // begin
-    //     rSet[i] += set1[i];
-    // end;
-
-    // for i := 0 to length(set2)-1 do
-    // begin
-    //     rSet[i] += set2[i];
-    // end;
 
     result := rSet;
 end;
@@ -145,18 +127,23 @@ end;
 function subSet(set1,set2:TLongSet):TLongSet; 
 var
     rSet: TLongSet;
-    i: integer;
-    el: byte;
+    i, stop: integer;
 begin
     setLength(rSet, length(set1));
 
+    if length(set1) >= length(set2) then
+        stop := length(set2)
+    else
+        stop := length(set1);
+
     for i := 0 to length(set1)-1 do
     begin
-        for el := 0 to 255 do
-        begin
-            if (el in set1[i]) and not(el in set2[i]) then
-                rSet[i] += [el];
-        end;
+        rSet[i] := set1[i];
+    end;
+
+    for i := 0 to stop-1 do
+    begin
+        rSet[i] := set1[i] - set2[i];
     end;
 
     result := rSet;
@@ -169,7 +156,6 @@ function mulSet(set1,set2:TLongSet):TLongSet;
 var
     rSet: TLongSet;
     i, len: integer;
-    el: byte;
 begin
     if length(set1) >= length(set2) then
         len := length(set2)
@@ -180,14 +166,64 @@ begin
     
     for i := 0 to len-1 do
     begin
-        for el := 0 to 255 do
-        begin
-            if (el in set1[i]) and (el in set2[i]) then
-                rSet[i] += [el];
-        end;
+        rSet[i] := set1[i] * set2[i];
     end;
 
     result := rSet;
+end;
+
+
+{ симметричная разность множеств}
+function symSet(set1,set2:TLongSet):TLongSet;
+var
+    rSet: TLongSet;
+    i, len, stop: integer;
+begin
+    if length(set1) >= length(set2) then
+    begin
+        len := length(set1);
+        stop := length(set2);
+
+        setLength(rSet, len);
+        for i := 0 to len-1 do
+        begin
+            rSet[i] := set1[i];
+        end;
+    end
+    else
+    begin
+        len := length(set2);
+        stop := length(set1);
+
+        setLength(rSet, len);
+        for i := 0 to len-1 do
+        begin
+            rSet[i] := set2[i];
+        end;
+    end;
+
+
+    for i := 0 to stop-1 do
+    begin
+        rSet[i] := set1[i] >< set2[i];
+    end;
+
+    result := rSet;
+end;
+
+
+ { аналог функции include, изменяет переданное множество
+   при необходимости увеличивает его размер }
+procedure includeSet(var dstSet:TLongSet; e:integer);
+var
+    i: integer;
+    j: byte;
+
+begin
+    for i := 0 to length(dstSet)-1 do
+    begin
+        
+    end;
 end;
 
 
@@ -217,10 +253,12 @@ begin
     printSet(set2);
     writeln();
 
-    set3 := sumSet(set1, set2);
+    set3 := symSet(set1, set2);
     writeln('set3');
     printSet(set3);
     writeln('массив3: ', length(set3));
+
+    //includeSet(mySet, 256);
 
 
 end.
