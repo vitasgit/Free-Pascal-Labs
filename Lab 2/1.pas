@@ -42,7 +42,7 @@ var
     rSet: TLongSet;
     len: integer;
 begin
-    len := ((count + 255) div 256);
+    len := (count + 255) div 256;
     setLength(rSet, len);
     
     result := rSet;
@@ -216,14 +216,25 @@ end;
    при необходимости увеличивает его размер }
 procedure includeSet(var dstSet:TLongSet; e:integer);
 var
-    i: integer;
-    j: byte;
-
+    i, minLen: integer;
 begin
-    for i := 0 to length(dstSet)-1 do
-    begin
-        
-    end;
+    minLen := (e + 255) div 256;
+    if (Length(dstSet) < minLen) then setLength(dstSet, minLen);
+
+    i := minLen - 1;
+    e := (e + 255) mod 256;
+    Include(dstSet[i], e);
+end;
+
+
+ { аналог функции exclude, изменяет переданное множество  }
+procedure excludeSet(var dstSet:TLongSet; e:integer);
+var
+    i, len: integer;
+begin
+    i := ((e + 255) div 256) - 1;
+    e := (e + 255) mod 256;
+    exclude(dstSet[i], e);
 end;
 
 
@@ -233,32 +244,37 @@ var
     i: integer;
 
 begin
-    // mySet := createSet(3);
-    // writeln('массив: ', length(mySet));
+    mySet := createSet(600);
+    mySet[0] := [1..5];
+    mySet[1] := [5..10];
+    mySet[2] := [10..15];
+    printSet(mySet);
+    writeln('массив: ', length(mySet));
+
+    excludeSet(mySet, 262);
+    printSet(mySet);
+    writeln('массив: ', length(mySet));
 
     // writeln(getSize(mySet));
 
 
-    set1 := createSet(300);
-    set2 := createSet(3);
+    // set1 := createSet(300);
+    // set2 := createSet(3);
     
-    set1[0] := [1..10];
-    set1[1] := [10..15];
-    set2[0] := [5..9];
+    // set1[0] := [1..10];
+    // set1[1] := [10..15];
+    // set2[0] := [5..9];
     //set2[1] := [13..15];
-    writeln('set1');
-    printSet(set1);
-    writeln();
-    writeln('set2');
-    printSet(set2);
-    writeln();
+    // writeln('set1');
+    // printSet(set1);
+    // writeln();
+    // writeln('set2');
+    // printSet(set2);
+    // writeln();
 
-    set3 := symSet(set1, set2);
-    writeln('set3');
-    printSet(set3);
-    writeln('массив3: ', length(set3));
-
-    //includeSet(mySet, 256);
-
+    // set3 := symSet(set1, set2);
+    // writeln('set3');
+    // printSet(set3);
+    // writeln('массив3: ', length(set3));
 
 end.
