@@ -80,10 +80,13 @@ end;
  { аналог операции in }
 function inSet(bSet:TLongSet; e:integer):boolean;
 var
-    i: integer;
+    i, start: integer;
 begin
     result := false;
-    for i := 0 to Length(bSet)-1 do
+    start := ((e + 255) div 256)-1;
+    e := (e mod 255);
+
+    for i := start to Length(bSet)-1 do
     begin
         if e in bSet[i] then
         begin
@@ -123,31 +126,31 @@ end;
 
 
 { аналог операции -, возвращает новое множество минимально необходимого размера}
-// вычесть из пустого множества
-function subSet(set1,set2:TLongSet):TLongSet; 
+function subSet(set1,set2:TLongSet):TLongSet;
 var
     rSet: TLongSet;
-    i, stop: integer;
+    i, stop, len: integer;
 begin
-    setLength(rSet, length(set1));
 
     if length(set1) >= length(set2) then
-        stop := length(set2)
-    else
-        stop := length(set1);
-
-    for i := 0 to length(set1)-1 do
     begin
-        rSet[i] := set1[i];
+        len := length(set1);
+        setLength(set2, len);
+    end
+    else
+    begin
+        len := length(set2);
+        setLength(set1, len);
     end;
 
-    for i := 0 to stop-1 do
+    setLength(rSet, len);
+
+    for i := 0 to len-1 do
     begin
         rSet[i] := set1[i] - set2[i];
     end;
 
     result := rSet;
-
 end;
 
 
@@ -177,33 +180,22 @@ end;
 function symSet(set1,set2:TLongSet):TLongSet;
 var
     rSet: TLongSet;
-    i, len, stop: integer;
+    i, len: integer;
 begin
     if length(set1) >= length(set2) then
     begin
         len := length(set1);
-        stop := length(set2);
-
-        setLength(rSet, len);
-        for i := 0 to len-1 do
-        begin
-            rSet[i] := set1[i];
-        end;
+        setLength(set2, len);
     end
     else
     begin
         len := length(set2);
-        stop := length(set1);
-
-        setLength(rSet, len);
-        for i := 0 to len-1 do
-        begin
-            rSet[i] := set2[i];
-        end;
+        setLength(set1, len);
     end;
 
+    setLength(rSet, len);
 
-    for i := 0 to stop-1 do
+    for i := 0 to len-1 do
     begin
         rSet[i] := set1[i] >< set2[i];
     end;
@@ -244,16 +236,16 @@ var
     i: integer;
 
 begin
-    mySet := createSet(600);
-    mySet[0] := [1..5];
-    mySet[1] := [5..10];
-    mySet[2] := [10..15];
-    printSet(mySet);
-    writeln('массив: ', length(mySet));
+    // mySet := createSet(600);
+    // mySet[0] := [1..5];
+    // mySet[1] := [5..10];
+    // mySet[2] := [10..15];
+    // printSet(mySet);
+    // writeln('массив: ', length(mySet));
 
-    excludeSet(mySet, 262);
-    printSet(mySet);
-    writeln('массив: ', length(mySet));
+    // excludeSet(mySet, 262);
+    // printSet(mySet);
+    // writeln('массив: ', length(mySet));
 
     // writeln(getSize(mySet));
 
@@ -261,10 +253,10 @@ begin
     // set1 := createSet(300);
     // set2 := createSet(3);
     
-    // set1[0] := [1..10];
+    // set1[0] := [1..8];
     // set1[1] := [10..15];
-    // set2[0] := [5..9];
-    //set2[1] := [13..15];
+    // set2[0] := [5..10];
+    // // set2[1] := [13..15];
     // writeln('set1');
     // printSet(set1);
     // writeln();
