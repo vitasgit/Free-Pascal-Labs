@@ -10,7 +10,6 @@ type
 procedure printSet(mySet:TLongSet);
 var
     i, j: integer;
-    el: byte;
 begin
     for i := 0 to length(mySet)-1 do
     begin
@@ -25,7 +24,7 @@ begin
     end;
     writeln();
 end;
-// j := i*256 to 255*(i+1) do
+
 
  { создание множества на count элементов
    реальное кол-во элементов всегда будет выравнено по границе, кратной 256 }
@@ -47,16 +46,30 @@ end;
 procedure setSize(var dstSet:TLongSet; newCount:integer);
 var
     newLen: integer;
-begin
+begin 
     newLen := ((newCount + 255) div 256);
     setLength(dstSet, newLen);
+    
 end;
 
 
  { получение размера множества (кратно 256) }
 function getSize(bSet:TLongSet): integer;
+var
+	i, len, el: integer;
+	j: byte;
 begin
-    result := length(bSet) * 256;
+    // i := length(bSet) - 1;
+    // for j := 0 to 255 do
+    // begin
+    //     if j in bSet[i] then
+    //     begin
+    //         el := 256*i + j;
+    //     end;
+    // end;
+
+	result := length(bSet) * 256;
+    //result := el + (256 - (el mod 256));
 end;
 
 
@@ -118,7 +131,7 @@ end;
 function subSet(set1,set2:TLongSet):TLongSet;
 var
     rSet: TLongSet;
-    i, len: integer;
+    i, len, count: integer;
 begin
 
     if length(set1) >= length(set2) then
@@ -134,10 +147,15 @@ begin
 
     setLength(rSet, len);
 
+    count := 0;
     for i := 0 to len-1 do
     begin
         rSet[i] := set1[i] - set2[i];
+
+        if rSet[i] <> [] then count := i;
     end;
+
+    setLength(rSet, count+1);
 
     result := rSet;
 end;
@@ -147,7 +165,7 @@ end;
 function mulSet(set1,set2:TLongSet):TLongSet;
 var
     rSet: TLongSet;
-    i, len: integer;
+    i, len, count: integer;
 begin
     if length(set1) >= length(set2) then
         len := length(set2)
@@ -155,11 +173,17 @@ begin
         len := length(set1);
 
     setLength(rSet, len);
-    
+
+    count := 0;
     for i := 0 to len-1 do
     begin
         rSet[i] := set1[i] * set2[i];
+
+        if rSet[i] <> [] then count := i;
     end;
+
+    setLength(rSet, count+1);
+
 
     result := rSet;
 end;
@@ -169,7 +193,7 @@ end;
 function symSet(set1,set2:TLongSet):TLongSet;
 var
     rSet: TLongSet;
-    i, len: integer;
+    i, len, count: integer;
 begin
     if length(set1) >= length(set2) then
     begin
@@ -184,11 +208,15 @@ begin
 
     setLength(rSet, len);
 
+    count := 0;
     for i := 0 to len-1 do
     begin
         rSet[i] := set1[i] >< set2[i];
+
+        if rSet[i] <> [] then count := i;
     end;
 
+    setLength(rSet, count+1);
     result := rSet;
 end;
 
@@ -230,6 +258,7 @@ begin
     includeSet(mySet, 1000);
     includeSet(mySet, 5000);
 	printSet(mySet);
+	writeln(getSize(mySet));
 }
 	
     set1 := createSet(3);
@@ -237,62 +266,12 @@ begin
     includeSet(set1, 1000);
     includeSet(set1, 2000);
     includeSet(set1, 5000);
+    includeSet(set2, 1001);
     includeSet(set2, 5000);
-    includeSet(set2, 6000);
     printSet(set1);
     printSet(set2);
     set3 := symSet(set1, set2);
     printSet(set3);
-
-    
-    
-    {
-    writeln();
-    setSize(mySet, 3);
-    writeln('массив: ', length(mySet));
-    writeln('множ: ', getSize(mySet));
-	}
-	
-    {
-    writeln();
-    destroySet(mySet);
-    writeln('массив: ', length(mySet));
-    writeln('множ: ', getSize(mySet));
-	}
-	
-    //writeln(inSet(mySet, 261));
-
-    
-{
-    excludeSet(mySet, 262);
-    printSet(mySet);
-    writeln('массив: ', length(mySet));
-}
-
-    // writeln(getSize(mySet));
-
-
-    // set1 := createSet(300);
-    // set2 := createSet(3);
-    
-{
-    set1[0] := [1..8];
-    set1[1] := [10..15];
-    set2[0] := [5..10];
-    set2[1] := [13..15];
-    writeln('set1');
-    printSet(set1);
-    writeln();
-    writeln('set2');
-    printSet(set2);
-    writeln();
-}
-    
-{
-    set3 := symSet(set1, set2);
-    writeln('set3');
-    printSet(set3);
-    writeln('массив3: ', length(set3));
-}
+    writeln(getSize(set3));
 
 end.
