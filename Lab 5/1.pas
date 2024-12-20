@@ -2,24 +2,41 @@
 {$WARN 6058 OFF}
 uses sysutils, variants;
 
-// operator := (x:string):double;
+operator := (x:string):double;
+var
+    Code: Word;
+    tmp: double;
+begin
+    Val(x, tmp, Code);
+
+    if Code <> 0 then tmp := 0.0;
+
+    Result := tmp;
+end;
+
+// operator explicit (x:string):double;
 // begin
-// 	result := StrToFloatDef(x, 0.0);
+//     result := StrToFloatDef(x, 0.0);
 // end;
 
-operator explicit (x:string):double;
+function getType(x:double):string;
 begin
-    result := StrToFloatDef(x, 0.0);
+    result := 'double';
+end;
+
+function getType(x:real):string;
+begin
+  result := 'real';
 end;
 
 
 var
-    s: variant;
+    s: string;
     a: double;
 BEGIN
-	s := 'awdadw';  // не присваивает 0.0
-    writeln(s);  // не выводит 0.0
-    a := 1.2;
-    writeln(a + s);  // 2.5
+	s := 'awdadw'; // Некорректная строка
+    a := s;        // Используем оператор присваивания
+    writeln(a); // Вывод: 0.00
+    writeln(getType(s));
 END.
 
