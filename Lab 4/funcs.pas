@@ -13,6 +13,7 @@ function getType(x:string):string;
 function getType(x:boolean):string;
 
 procedure getIntFrac(x:real; var intPart, fracPart:real);
+procedure getStrChr(s:string; var digits, spaces, otherChars:integer);
 
 
 implementation
@@ -62,11 +63,27 @@ begin
 end;
 // end getType
 
-// где ошибка
 procedure getIntFrac(x:real; var intPart, fracPart:real);
 begin
     intPart := int(x);
     fracPart := frac(x);
 end;
+
+procedure getStrChr(s:string; var digits, spaces, otherChars:integer);
+var
+    ch: char;
+begin
+    digits := 0;
+    spaces := 0;
+
+    for ch in s do
+    begin
+        if ch in ['0'..'9'] then digits += 1;
+        if ch = ' ' then spaces += 1;
+    end;
+
+    otherChars := length(s) - (digits + spaces);
+end;
+
 
 end.
