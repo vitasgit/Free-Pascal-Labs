@@ -12,7 +12,7 @@ function getType(x:real):string;
 function getType(x:string):string;
 function getType(x:boolean):string;
 
-procedure getIntFrac(x:real; var intPart, fracPart:real);
+procedure getIntFrac(x:real; var intPart:integer; var fracPart:real);
 procedure getStrChr(s:string; var digits, spaces, otherChars:integer);
 
 
@@ -63,9 +63,9 @@ begin
 end;
 // end getType
 
-procedure getIntFrac(x:real; var intPart, fracPart:real);
+procedure getIntFrac(x:real; var intPart:integer; var fracPart:real);
 begin
-    intPart := int(x);
+    intPart := trunc(x);
     fracPart := frac(x);
 end;
 
