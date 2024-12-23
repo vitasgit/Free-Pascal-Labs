@@ -1,6 +1,9 @@
 {$mode objfpc}
 unit testFuncs;
 interface
+var
+    successFuncs: boolean;
+
 
 function test_getMax():boolean;
 function test_getType():boolean;
@@ -59,5 +62,14 @@ begin
         result := false;
 end;
 
+
+initialization
+
+if  (test_getMax() = true) and
+    (test_getType() = true) and
+    (test_getIntFrac() = true) and
+    (test_getStrChr() = true) then successFuncs := true
+else
+    successFuncs := false;
 
 end.

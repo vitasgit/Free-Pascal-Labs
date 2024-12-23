@@ -15,8 +15,11 @@ function getType(x:boolean):string;
 procedure getIntFrac(x:real; var intPart:integer; var fracPart:real);
 procedure getStrChr(s:string; var digits, spaces, otherChars:integer);
 
+function validatedAll():boolean;
+
 
 implementation
+uses testFuncs;
 
 function getMax(a, b:integer):integer;
 begin
@@ -83,6 +86,11 @@ begin
     end;
 
     otherChars := length(s) - (digits + spaces);
+end;
+
+function validatedAll():boolean;
+begin
+    result := successFuncs;
 end;
 
 

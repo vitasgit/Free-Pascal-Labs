@@ -21,6 +21,8 @@ BEGIN
     // writeln(test_getType());
     // writeln(test_getIntFrac());
     // writeln(test_getStrChr());
+
+    // writeln(validatedAll());
     
 
      
