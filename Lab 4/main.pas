@@ -16,11 +16,8 @@ BEGIN
     // getStrChr(s, countDigits, countSpaces, countOther);
     // writeln(countDigits, ' ', countSpaces, ' ', countOther);
 
-    writeln(test_getMax());
-
-    for i := 1 to 2 do
-        for j := 1 to 2 do
-            writeln(i, ' ', j)
+    //writeln(test_getMax());
+    // writeln(test_getType());
 
      
 
