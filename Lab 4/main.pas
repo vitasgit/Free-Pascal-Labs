@@ -1,5 +1,5 @@
 {$mode objfpc}
-uses funcs, testFuncs;
+uses funcs, testFuncs, sysUtils;
 
 var
     x: real = 123.000002555;
@@ -8,6 +8,10 @@ var
     s: string = 'abc123 *7., h ';
     countDigits, countSpaces, countOther: integer;
     i, j, k, x1, x2, x3, x4, x5: integer;
+    inputType_str: string;
+    inputType_int: integer;
+    inputType_real: real;
+    inputType_bool: real;
 
 BEGIN
     // writeln(getMax(5, 4, 3, 3, 0));
@@ -28,6 +32,8 @@ BEGIN
     begin
         writeln('1: getMax');
         writeln('2: getType');
+        writeln('3: getIntFrac');
+        writeln('4: getStrChr');
         writeln();
 
         writeln('Введите номер функции(0 - выход): ');
@@ -44,6 +50,20 @@ BEGIN
                     writeln('Макс(', x1, ', ', x2, ', ', x3, '): ', getMax(x1, x2, x3));
                     writeln('Макс(', x1, ', ', x2, ', ', x3, ', ', x4, '): ', getMax(x1, x2, x3, x4));
                     writeln('Макс(', x1, ', ', x2, ', ', x3, ', ', x4, ', ', x5, '): ', getMax(x1, x2, x3, x4, x5));
+                end;
+
+                2: 
+                begin
+                    write('Введите значение: ');
+                    readln(inputType_str);
+
+                    if tryStrToInt(inputType_str, inputType_int) then 
+                        writeln(getType(inputType_int))
+                    else if tryStrToFloat(inputType_str, inputType_real) then 
+                        writeln(getType(inputType_real))
+                    else if tryStrToBool(inputType_str, inputType_bool) then 
+                        writeln(getType(inputType_bool));
+                    
                 end;
             end;
             
