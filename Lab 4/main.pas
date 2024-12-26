@@ -2,16 +2,16 @@
 uses funcs, testFuncs, sysUtils;
 
 var
-    x: real = 123.000002555;
+    x: real;
     int_x: integer; 
     frac_x: real;
-    s: string = 'abc123 *7., h ';
+    s: string;
     countDigits, countSpaces, countOther: integer;
     i, j, k, x1, x2, x3, x4, x5: integer;
     inputType_str: string;
     inputType_int: integer;
     inputType_real: real;
-    inputType_bool: real;
+    inputType_bool: boolean;
 
 BEGIN
     // writeln(getMax(5, 4, 3, 3, 0));
@@ -62,8 +62,28 @@ BEGIN
                     else if tryStrToFloat(inputType_str, inputType_real) then 
                         writeln(getType(inputType_real))
                     else if tryStrToBool(inputType_str, inputType_bool) then 
-                        writeln(getType(inputType_bool));
-                    
+                        writeln(getType(inputType_bool))
+                    else
+                        writeln(getType(inputType_str));
+                end;
+
+                3:
+                begin
+                    write('Введите число: ');
+                    readln(x);
+                    getIntFrac(x, int_x, frac_x);
+                    writeln('Целая: ', int_x);
+                    writeln('Дробная: ', frac_x:0:4);
+                end;
+
+                4:
+                begin
+                    write('Введите строку: ');
+                    readln(s);
+                    getStrChr(s, countDigits, countSpaces, countOther);
+                    writeln('Цифр: ', countDigits);
+                    writeln('Пробелы: ', countSpaces);
+                    writeln('Другие: ', countOther);
                 end;
             end;
             
