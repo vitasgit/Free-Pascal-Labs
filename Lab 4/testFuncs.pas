@@ -16,36 +16,99 @@ uses funcs;
 
 function test_getMax():boolean;
 begin        
-    if (getMax(1, 2) = 2) and
-       (getMax(1, 2, 3) = 3) and
-       (getMax(1, 2, 3, 4) = 4) and
-       (getMax(1, 2, 3, 4, 5) = 5) then result := true
+    if  (getMax(-2, -2) = -2) and
+        (getMax(-2, -1) = -1) and
+        (getMax(0, -2) = 0) and
+        (getMax(-2, 1) = 1) and
+        (getMax(0, 1) = 1) and
+        (getMax(1, 1) = 1) and
+        (getMax(-3, -3, -3) = -3) and
+        (getMax(-3, -3, -2) = -2) and
+        (getMax(-3, -3, 0) = 0) and
+        (getMax(-3, -2, -3) = -2) and
+        (getMax(-3, -2, -2) = -2) and
+        (getMax(-3, -2, 0) = 0) and
+        (getMax(-2, 2, -2) = 2) and
+        (getMax(1, 2, -3) = 2) and
+        (getMax(2, 2, 2) = 2) and
+        (getMax(1, 2, 3) = 3) and
+        (getMax(-4, -4, -4, -4) = -4) and
+        (getMax(-4, -4, -4, -3) = -3) and
+        (getMax(-4, -4, -4, 0) = 0) and
+        (getMax(-4, -3, -2, -1) = -1) and
+        (getMax(-4, -4, -4, -4) = -4) and
+        (getMax(-1, 4, 3, 2) = 4) and
+        (getMax(2, 2, 2, 2) = 2) and
+        (getMax(-4, -4, -4, -4) = -4) and
+        (getMax(3, 1, -4, 2) = 3) and
+        (getMax(-4, -4, -4, -4) = -4) and
+        (getMax(1, 2, 3, 4) = 4) and
+        (getMax(-5, -5, -5, -5, -5) = -5) and
+        (getMax(-5, -5, -5, -5, 0) = 0) and
+        (getMax(-5, -5, -5, -5, -5) = -5) and
+        (getMax(-5, -5, -4, -5, -5) = -4) and
+        (getMax(-5, -5, -5, -5, -5) = -5) and
+        (getMax(-5, -5, -4, -3, -5) = -3) and
+        (getMax(5, 5, 5, 5, 5) = 5) and
+        (getMax(4, 3, 3, 3, 3) = 4) and
+        (getMax(-5, -5, -5, -5, -5) = -5) and
+        (getMax(-5, -4, -3, -2, -1) = -1) and
+        (getMax(1, 2, 3, 4, 5) = 5) then result := true
     else
         result := false;
 end;
 
 function test_getType():boolean;
 begin
-    if (getType(123) = 'integer') and
-       (getType(1.23) = 'real') and
-       (getType('abcd') = 'string') and
-       (getType(true) = 'boolean') then result := true
+    if  (getType(123) = 'integer') and
+        (getType(1.23) = 'real') and
+        (getType('abcd') = 'string') and
+        (getType(true) = 'boolean') then result := true
     else
         result := false;
 end;
 
 function test_getIntFrac():boolean;
 var
-    x: real = 123.000002555;
     intPart: integer;
     fracPart: real;
 begin
-    getIntFrac(x, intPart, fracPart);
+    getIntFrac(456.789, intPart, fracPart);
+    if  (intPart = 456) and ((fracPart < 0.78901) and (fracPart > 0.78899)) then result := true
+    else result := false;
 
-    if (intPart = 123) and ((fracPart < 0.000002556) and (fracPart > 0.000002554)) then 
-        result := true
-    else 
-        result := false;
+    getIntFrac(-789.456, intPart, fracPart);
+    if  (intPart = -789) and ((fracPart < 0.45601) and (fracPart > 0.45599)) then result := true
+    else result := false;
+
+    getIntFrac(1000.001, intPart, fracPart);
+    if  (intPart = 1000) and ((fracPart < 0.0011) and (fracPart > 0.0009)) then result := true
+    else result := false;
+
+    getIntFrac(0.0, intPart, fracPart);
+    if  (intPart = 0) and ((fracPart < 0.00001) and (fracPart > -0.00001)) then result := true
+    else result := false;
+
+    getIntFrac(-0.01, intPart, fracPart);
+    if  (intPart = 0) and ((fracPart < 0.00995) and (fracPart > -0.01005)) then result := true
+    else result := false;
+
+    getIntFrac(1.0, intPart, fracPart);
+    if  (intPart = 1) and ((fracPart < 0.00001) and (fracPart > -0.00001)) then result := true
+    else result := false;
+
+    getIntFrac(1.000001, intPart, fracPart);
+    if  (intPart = 1) and ((fracPart < 0.00009) and (fracPart > -0.00001)) then result := true
+    else result := false;
+
+    getIntFrac(999999.999999, intPart, fracPart);
+    if  (intPart = 999999) and ((fracPart < 1.0) and (fracPart > 0.999995)) then result := true
+    else result := false;
+
+    getIntFrac(0.999999, intPart, fracPart);
+    if  (intPart = 0) and ((fracPart < 1.0) and (fracPart > 0.999995)) then result := true
+    else result := false;
+    
 end;
 
 function test_getStrChr():boolean;

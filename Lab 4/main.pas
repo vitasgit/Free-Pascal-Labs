@@ -17,7 +17,7 @@ BEGIN
     // writeln(getMax(5, 4, 3, 3, 0));
     // writeln(getType(a));
     // getIntFrac(x, int_x, frac_x);
-    // writeln(x:0:4, ' ',  int_x:0:1, ' ',  frac_x:0:4);
+    // writeln(x:0:6, ' ',  int_x, ' ',  frac_x:0:6);
     // getStrChr(s, countDigits, countSpaces, countOther);
     // writeln(countDigits, ' ', countSpaces, ' ', countOther);
 
@@ -73,7 +73,7 @@ BEGIN
                     readln(x);
                     getIntFrac(x, int_x, frac_x);
                     writeln('Целая: ', int_x);
-                    writeln('Дробная: ', frac_x:0:4);
+                    writeln('Дробная: ', frac_x:0:6);
                 end;
 
                 4:
