@@ -74,41 +74,78 @@ var
     fracPart: real;
 begin
     getIntFrac(456.789, intPart, fracPart);
-    if  (intPart = 456) and ((fracPart < 0.78901) and (fracPart > 0.78899)) then result := true
-    else result := false;
+    if not ((intPart = 456) and ((fracPart > 0.78895) and (fracPart < 0.78905))) then 
+    begin
+        result := false;
+        writeln('error: ', intPart);
+        exit;
+    end;
 
     getIntFrac(-789.456, intPart, fracPart);
-    if  (intPart = -789) and ((fracPart < 0.45601) and (fracPart > 0.45599)) then result := true
-    else result := false;
+    if not ((intPart = -789) and ((fracPart > -0.45605) and (fracPart < -0.45595))) then
+    begin
+        result := false;
+        writeln('error: ', intPart);
+        exit;
+    end;
 
     getIntFrac(1000.001, intPart, fracPart);
-    if  (intPart = 1000) and ((fracPart < 0.0011) and (fracPart > 0.0009)) then result := true
-    else result := false;
+    if not ((intPart = 1000) and ((fracPart > 0.00095) and (fracPart < 0.00105))) then
+    begin
+        result := false;
+        writeln('error: ', intPart);
+        exit;
+    end;
 
     getIntFrac(0.0, intPart, fracPart);
-    if  (intPart = 0) and ((fracPart < 0.00001) and (fracPart > -0.00001)) then result := true
-    else result := false;
+    if not ((intPart = 0) and ((fracPart > -0.00005) and (fracPart < 0.00005))) then
+    begin
+        result := false;
+        writeln('error: ', intPart);
+        exit;
+    end;
 
     getIntFrac(-0.01, intPart, fracPart);
-    if  (intPart = 0) and ((fracPart < 0.00995) and (fracPart > -0.01005)) then result := true
-    else result := false;
+    if not ((intPart = 0) and ((fracPart > -0.01005) and (fracPart < -0.00995))) then
+    begin
+        result := false;
+        writeln('error: ', intPart);
+        exit;
+    end;
 
     getIntFrac(1.0, intPart, fracPart);
-    if  (intPart = 1) and ((fracPart < 0.00001) and (fracPart > -0.00001)) then result := true
-    else result := false;
+    if not ((intPart = 1) and ((fracPart > -0.00005) and (fracPart < 0.00005))) then
+    begin
+        result := false;
+        writeln('error: ', intPart);
+        exit;
+    end;
 
     getIntFrac(1.000001, intPart, fracPart);
-    if  (intPart = 1) and ((fracPart < 0.00009) and (fracPart > -0.00001)) then result := true
-    else result := false;
+    if not ((intPart = 1) and ((fracPart > -0.00000095) and (fracPart < 0.00000105))) then
+    begin
+        result := false;
+        writeln('error: ', intPart);
+        exit;
+    end;
 
     getIntFrac(999999.999999, intPart, fracPart);
-    if  (intPart = 999999) and ((fracPart < 1.0) and (fracPart > 0.999995)) then result := true
-    else result := false;
+    if not ((intPart = 999999) and ((fracPart > 0.999995) and (fracPart < 1.0))) then
+    begin
+        result := false;
+        writeln('error: ', intPart);
+        exit;
+    end;
 
     getIntFrac(0.999999, intPart, fracPart);
-    if  (intPart = 0) and ((fracPart < 1.0) and (fracPart > 0.999995)) then result := true
-    else result := false;
-    
+    if not ((intPart = 0) and ((fracPart > 0.999995) and (fracPart < 1.0))) then
+    begin
+        result := false;
+        writeln('error: ', intPart);
+        exit;
+    end;
+
+    result := true;
 end;
 
 function test_getStrChr():boolean;
