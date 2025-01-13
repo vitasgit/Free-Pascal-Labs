@@ -12,10 +12,12 @@ var
     inputType_int: integer;
     inputType_real: real;
     inputType_bool: boolean;
+    a: byte;
 
 BEGIN
     // writeln(getMax(5, 4, 3, 3, 0));
-    // writeln(getType(a));
+    //writeln(getType(a));
+
     // getIntFrac(x, int_x, frac_x);
     // writeln(x:0:6, ' ',  int_x, ' ',  frac_x:0:6);
     // getStrChr(s, countDigits, countSpaces, countOther);

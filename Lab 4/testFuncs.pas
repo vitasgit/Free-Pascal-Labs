@@ -77,7 +77,6 @@ begin
     if not ((intPart = 456) and ((fracPart > 0.78895) and (fracPart < 0.78905))) then 
     begin
         result := false;
-        writeln('error: ', intPart);
         exit;
     end;
 
@@ -85,7 +84,6 @@ begin
     if not ((intPart = -789) and ((fracPart > -0.45605) and (fracPart < -0.45595))) then
     begin
         result := false;
-        writeln('error: ', intPart);
         exit;
     end;
 
@@ -93,7 +91,6 @@ begin
     if not ((intPart = 1000) and ((fracPart > 0.00095) and (fracPart < 0.00105))) then
     begin
         result := false;
-        writeln('error: ', intPart);
         exit;
     end;
 
@@ -101,7 +98,6 @@ begin
     if not ((intPart = 0) and ((fracPart > -0.00005) and (fracPart < 0.00005))) then
     begin
         result := false;
-        writeln('error: ', intPart);
         exit;
     end;
 
@@ -109,7 +105,6 @@ begin
     if not ((intPart = 0) and ((fracPart > -0.01005) and (fracPart < -0.00995))) then
     begin
         result := false;
-        writeln('error: ', intPart);
         exit;
     end;
 
@@ -117,7 +112,6 @@ begin
     if not ((intPart = 1) and ((fracPart > -0.00005) and (fracPart < 0.00005))) then
     begin
         result := false;
-        writeln('error: ', intPart);
         exit;
     end;
 
@@ -125,7 +119,6 @@ begin
     if not ((intPart = 1) and ((fracPart > -0.00000095) and (fracPart < 0.00000105))) then
     begin
         result := false;
-        writeln('error: ', intPart);
         exit;
     end;
 
@@ -133,7 +126,6 @@ begin
     if not ((intPart = 999999) and ((fracPart > 0.999995) and (fracPart < 1.0))) then
     begin
         result := false;
-        writeln('error: ', intPart);
         exit;
     end;
 
@@ -141,7 +133,6 @@ begin
     if not ((intPart = 0) and ((fracPart > 0.999995) and (fracPart < 1.0))) then
     begin
         result := false;
-        writeln('error: ', intPart);
         exit;
     end;
 
@@ -150,16 +141,60 @@ end;
 
 function test_getStrChr():boolean;
 var
-    s: string = '32 daw5 %';
     countDigits: integer;
     countSpaces: integer;
     countOther: integer;
 begin
-    getStrChr(s, countDigits, countSpaces, countOther);
-    if (countDigits = 3) and (countSpaces = 2) and (countOther = 4) then
-        result := true
-    else
+    getStrChr('', countDigits, countSpaces, countOther);
+    if not ((countDigits = 0) and (countSpaces = 0) and (countOther = 0)) then
+    begin
         result := false;
+        exit;
+    end;
+
+    getStrChr('      ', countDigits, countSpaces, countOther);
+    if not ((countDigits = 0) and (countSpaces = 6) and (countOther = 0)) then
+    begin
+        result := false;
+        exit;
+    end;
+
+    getStrChr('1234', countDigits, countSpaces, countOther);
+    if not ((countDigits = 4) and (countSpaces = 0) and (countOther = 0)) then
+    begin
+        result := false;
+        exit;
+    end;
+
+    getStrChr('abc#', countDigits, countSpaces, countOther);
+    if not ((countDigits = 0) and (countSpaces = 0) and (countOther = 4)) then
+    begin
+        result := false;
+        exit;
+    end;
+
+    getStrChr('abc#', countDigits, countSpaces, countOther);
+    if not ((countDigits = 0) and (countSpaces = 0) and (countOther = 4)) then
+    begin
+        result := false;
+        exit;
+    end;
+
+    getStrChr(' abc# 123 ', countDigits, countSpaces, countOther);
+    if not ((countDigits = 3) and (countSpaces = 3) and (countOther = 4)) then
+    begin
+        result := false;
+        exit;
+    end;
+
+    getStrChr('12\n34\tad@  ', countDigits, countSpaces, countOther);
+    if not ((countDigits = 4) and (countSpaces =  2) and (countOther = 7)) then
+    begin
+        result := false;
+        exit;
+    end;
+
+    result := true
 end;
 
 
@@ -171,5 +206,6 @@ if  (test_getMax() = true) and
     (test_getStrChr() = true) then successFuncs := true
 else
     successFuncs := false;
+
 
 end.
