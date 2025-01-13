@@ -78,14 +78,17 @@ var
 begin
     digits := 0;
     spaces := 0;
+    otherChars := 0;
 
     for ch in s do
     begin
-        if ch in ['0'..'9'] then digits += 1;
-        if ch = ' ' then spaces += 1;
+        if ch in ['0'..'9'] then 
+            digits += 1
+        else if ch = ' ' then 
+            spaces += 1
+        else 
+            otherChars += 1;
     end;
-
-    otherChars := length(s) - (digits + spaces);
 end;
 
 function validatedAll():boolean;

@@ -93,8 +93,9 @@ BEGIN
             writeln('Введите номер функции(0 - выход): ');
             readln(i);
         end;
-
-    end;
+    end
+    else
+        writeln('error: funcs');
 
 
 END.

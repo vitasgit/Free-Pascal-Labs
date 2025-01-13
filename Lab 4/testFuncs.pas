@@ -59,10 +59,27 @@ begin
 end;
 
 function test_getType():boolean;
+var
+    ch: char = 'c';
+    shInt: shortInt = 127;
+    lgInt: longInt = 128;
+    b: byte = 255;
+    sgl: single = 1.0;
+    db: double = 1.1;
+    ext: extended = 1.2;
+    lgBool: longbool = true;
 begin
     if  (getType(123) = 'integer') and
+        (getType(shInt) = 'integer') and
+        (getType(lgInt) = 'integer') and
+        (getType(b) = 'integer') and
         (getType(1.23) = 'real') and
+        (getType(sgl) = 'real') and
+        (getType(db) = 'real') and
+        (getType(ext) = 'real') and
         (getType('abcd') = 'string') and
+        (getType(ch) = 'string') and
+        (getType(lgBool) = 'boolean') and
         (getType(true) = 'boolean') then result := true
     else
         result := false;
