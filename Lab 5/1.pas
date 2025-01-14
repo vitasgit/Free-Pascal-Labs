@@ -3,40 +3,33 @@
 uses sysutils, variants;
 
 operator := (x:string):double;
-var
-    Code: Word;
-    tmp: double;
 begin
-    Val(x, tmp, Code);
-
-    if Code <> 0 then tmp := 0.0;
-
-    Result := tmp;
+    result := StrToFloatDef(x, 0.0);
 end;
 
-// operator explicit (x:string):double;
-// begin
-//     result := StrToFloatDef(x, 0.0);
-// end;
-
-function getType(x:double):string;
+operator explicit (x:string):double;
 begin
-    result := 'double';
+    result := StrToFloatDef(x, 0.0);
 end;
 
-function getType(x:real):string;
+operator := (x:double):string;
 begin
-  result := 'real';
+    result := FloatToStrF(x, ffFixed, 8, 6);
 end;
 
+operator explicit (x:double):string;
+begin
+    result := FloatToStrF(x, ffFixed, 8, 6);
+end;
 
 var
     s: string;
     a: double;
 BEGIN
-	s := 'awdadw'; // Некорректная строка
-    a := s;        // Используем оператор присваивания
-    writeln(a); // Вывод: 0.00
-    writeln(getType(s));
+    s := 123.123456078;
+    a := 123.123456078;
+    writeln(a+a);
+    writeln(string(a)+string(a));
+
 END.
 
