@@ -83,20 +83,15 @@ end;
  { аналог операции in }
 function inSet(bSet:TLongSet; e:integer):boolean;
 var
-    i, start: integer;
+    i: integer;
 begin
     result := false;
-    start := ((e + 256) div 256)-1;
+    i := ((e + 256) div 256)-1;
     e := (e mod 256);
 
-    for i := start to Length(bSet)-1 do
-    begin
-        if e in bSet[i] then
-        begin
-            result := true;
-            break;
-        end;
-    end;
+    if e in bSet[i] then
+        result := true;
+
 end;
 
 
@@ -263,15 +258,19 @@ begin
 	
     set1 := createSet(3);
     set2 := createSet(3);
+    // includeSet(set1, 1000);
+    // includeSet(set1, 2000);
+    // includeSet(set1, 5000);
+    // includeSet(set2, 1001);
+    // includeSet(set2, 5000);
+    // printSet(set1);
+    // printSet(set2);
+    // set3 := symSet(set1, set2);
+    // printSet(set3);
+    // writeln(getSize(set3));
+
     includeSet(set1, 1000);
-    includeSet(set1, 2000);
-    includeSet(set1, 5000);
-    includeSet(set2, 1001);
-    includeSet(set2, 5000);
+    writeln(inSet(set1, 1000));
     printSet(set1);
-    printSet(set2);
-    set3 := symSet(set1, set2);
-    printSet(set3);
-    writeln(getSize(set3));
 
 end.
