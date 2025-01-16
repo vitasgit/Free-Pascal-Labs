@@ -22,7 +22,6 @@ uses sysutils, variants;
 //     end;
 // end;
 
-
 operator := (x:string):double;
 begin
     result := StrToFloatDef(x, 0.0);
@@ -53,6 +52,26 @@ begin
     result := x + y;
 end;
 
+operator + (x:variant; y:double):double;
+begin
+    result := y + VarToStrDef(x, 0.0);
+end;
+
+operator + (y:double; x:variant):double;
+begin
+    result := y + VarToStrDef(x, 0.0);
+end;
+
+operator + (x:variant; y:string):double;
+begin
+    result := VarToStrDef(x, 0.0) + StrToFloatDef(y, 0.0);
+end;
+
+operator + (y:string; x:variant):double;
+begin
+    result := StrToFloatDef(y, 0.0) + VarToStrDef(x, 0.0);
+end;
+
 operator - (x:double; y:string):double;
 begin
     result := x - StrToFloatDef(y, 0.0);
@@ -61,6 +80,26 @@ end;
 operator - (x:string; y:double):double;
 begin
     result := StrToFloatDef(x, 0.0) - y;
+end;
+
+operator - (x:variant; y:double):double;
+begin
+    result := VarToStrDef(x, 0.0) - y;
+end;
+
+operator - (y:double; x:variant):double;
+begin
+    result := y - VarToStrDef(x, 0.0);
+end;
+
+operator - (x:variant; y:string):double;
+begin
+    result := VarToStrDef(x, 0.0) - StrToFloatDef(y, 0.0);
+end;
+
+operator - (y:string; x:variant):double;
+begin
+    result := StrToFloatDef(y, 0.0) - VarToStrDef(x, 0.0);
 end;
 
 operator * (x:double; y:string):double;
@@ -73,6 +112,26 @@ begin
     result := x * y;
 end;
 
+operator * (x:variant; y:double):double;
+begin
+    result := y * StrToFloatDef(x, 0.0);
+end;
+
+operator * (y:double; x:variant):double;
+begin
+    result := y * StrToFloatDef(x, 0.0);
+end;
+
+operator * (x:variant; y:string):double;
+begin
+    result := y * StrToFloatDef(x, 0.0);
+end;
+
+operator * (y:string; x:variant):double;
+begin
+    result := y * StrToFloatDef(x, 0.0);
+end;
+
 operator / (x:double; y:string):double;
 begin
     result := x / StrToFloatDef(y, 0.0);
@@ -81,6 +140,26 @@ end;
 operator / (x:string; y:double):double;
 begin
     result := StrToFloatDef(x, 0.0) / y;
+end;
+
+operator / (x:variant; y:double):double;
+begin
+    result := VarToStrDef(x, 0.0) / y;
+end;
+
+operator / (y:double; x:variant):double;
+begin
+    result := y / VarToStrDef(x, 0.0);
+end;
+
+operator / (x:variant; y:string):double;
+begin
+    result := VarToStrDef(x, 0.0) / StrToFloatDef(y, 0.0);
+end;
+
+operator / (y:string; x:variant):double;
+begin
+    result := StrToFloatDef(y, 0.0) / VarToStrDef(x, 0.0);
 end;
 
 
@@ -95,20 +174,50 @@ BEGIN
     d := '3.0';
     v := '123.0';
     writeln('s= ', s);
-    writeln('d= ', d);
+    writeln('d= ', d:0:6);
     writeln('v= ', v);
-    writeln('s+d= ',s + d);
-    writeln('s-d= ', s - d);
-    writeln('string(d) + string(d)= ', string(d) + string(d));
-    writeln('double(v) + double(v)= ', double(v) + double(v));
-    writeln('v+d= ', v + d);
+    writeln('string(d) + string(d) = ', string(d) + string(d));
+    writeln('double(v) + double(v) = ', double(v) + double(v):0:6);
+    writeln();
 
-    // writeln(1.5 + '2.0');
-    // writeln('2.0' + 1.5);
-    writeln('s*d= ', s * d);
-    writeln('3.0*2.0= ', '3.0' * 2.0);
-    writeln('s/d= ', s / d);
+    v := 'awd';
+    s := '5.0';
+    d := 3.0;
+    writeln('v= ', v);
+    writeln('s= ', s);
+    writeln('d= ', d:0:6);
+    writeln();
+
+    writeln('v + s = ', v + s:0:6);
+    writeln('s + v = ', s + v:0:6);
+    writeln('v + d = ', v + d:0:6);
+    writeln('d + v = ', d + v:0:6);
+    writeln('d + s = ', d + s:0:6);
+    writeln('s + d = ', s + d:0:6);
+    writeln();
     
+    writeln('v - s = ', v - s:0:6);
+    writeln('s - v = ', s - v:0:6);
+    writeln('v - d = ', v - d:0:6);
+    writeln('d - v = ', d - v:0:6);
+    writeln('d - s = ', d - s:0:6);
+    writeln('s - d = ', s - d:0:6);
+    writeln();
+    
+    writeln('v * s = ', v * s:0:6);
+    writeln('s * v = ', s * v:0:6);
+    writeln('v * d = ', v * d:0:6);
+    writeln('d * v = ', d * v:0:6);
+    writeln('d * s = ', d * s:0:6);
+    writeln('s * d = ', s * d:0:6);
+    writeln();
+    
+    writeln('v / s = ', v / s:0:6);
+    writeln('v / d = ', v + d:0:6);
+    writeln('d / s = ', d / s:0:6);
+    writeln('s / d = ', s / d:0:6);
+    writeln();
+
     // c := 123456;
     // writeln(c.IntReverse);
 
