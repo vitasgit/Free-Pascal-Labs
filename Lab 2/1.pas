@@ -1,4 +1,5 @@
 {$mode objfpc}
+{$R+}
 program n02;
 
  { тип множества }
@@ -47,7 +48,7 @@ procedure setSize(var dstSet:TLongSet; newCount:integer);
 var
     newLen: integer;
 begin 
-    newLen := ((newCount + 255) div 256);
+    newLen := ((newCount + 256) div 256);
     setLength(dstSet, newLen);
     
 end;
@@ -56,20 +57,23 @@ end;
  { получение размера множества (кратно 256) }
 function getSize(bSet:TLongSet): integer;
 var
-	i, len, el: integer;
-	j: byte;
+	i, count: integer;
 begin
-    // i := length(bSet) - 1;
-    // for j := 0 to 255 do
-    // begin
-    //     if j in bSet[i] then
-    //     begin
-    //         el := 256*i + j;
-    //     end;
-    // end;
-
+	
+	count := 0;
+    for i := 0 to length(bSet)-1 do
+    begin
+        if bSet[i] <> [] then count := i + 1;
+    end;
+    
+    if count = 0 then
+		setLength(bSet, count)
+	else
+		setLength(bSet, count);
+	
 	result := length(bSet) * 256;
-    //result := el + (256 - (el mod 256));
+    
+    
 end;
 
 
@@ -85,13 +89,18 @@ function inSet(bSet:TLongSet; e:integer):boolean;
 var
     i: integer;
 begin
-    result := false;
     i := ((e + 256) div 256)-1;
     e := (e mod 256);
-
-    if e in bSet[i] then
-        result := true;
-
+	
+	if i > length(bSet) then
+		result := false
+	else
+	begin
+		if e in bSet[i] then 
+			result := true
+		else
+			result := false;
+	end;
 end;
 
 
@@ -147,10 +156,14 @@ begin
     begin
         rSet[i] := set1[i] - set2[i];
 
-        if rSet[i] <> [] then count := i;
+        if rSet[i] <> [] then count := i + 1;
     end;
+    
+    if count = 0 then
+		setLength(rSet, count)
+	else
+		setLength(rSet, count);
 
-    setLength(rSet, count+1);
 
     result := rSet;
 end;
@@ -174,10 +187,13 @@ begin
     begin
         rSet[i] := set1[i] * set2[i];
 
-        if rSet[i] <> [] then count := i;
+        if rSet[i] <> [] then count := i + 1;
     end;
-
-    setLength(rSet, count+1);
+	
+	if count = 0 then
+		setLength(rSet, count)
+	else
+		setLength(rSet, count);
 
 
     result := rSet;
@@ -208,8 +224,13 @@ begin
     begin
         rSet[i] := set1[i] >< set2[i];
 
-        if rSet[i] <> [] then count := i;
+        if rSet[i] <> [] then count := i + 1;
     end;
+    
+    if count = 0 then
+		setLength(rSet, count)
+	else
+		setLength(rSet, count);
 
     setLength(rSet, count+1);
     result := rSet;
@@ -245,7 +266,6 @@ end;
 var 
     mySet: TLongSet;
     set1, set2, set3: TLongSet;
-    i: integer;
 
 begin
 {
@@ -258,19 +278,31 @@ begin
 	
     set1 := createSet(3);
     set2 := createSet(3);
-    // includeSet(set1, 1000);
-    // includeSet(set1, 2000);
-    // includeSet(set1, 5000);
-    // includeSet(set2, 1001);
-    // includeSet(set2, 5000);
-    // printSet(set1);
-    // printSet(set2);
-    // set3 := symSet(set1, set2);
-    // printSet(set3);
-    // writeln(getSize(set3));
-
     includeSet(set1, 1000);
-    writeln(inSet(set1, 1000));
+    includeSet(set1, 2000);
+    includeSet(set1, 256);
+    includeSet(set1, 5000);
+    includeSet(set2, 1000);
+    includeSet(set2, 5001);
+    includeSet(set2, 256);
     printSet(set1);
+    printSet(set2);
+    
+    writeln();
+    set3 := subSet(set1, set2);
+    printSet(set3);
+    writeln(getSize(set3));
+    
+    writeln();
+    //excludeSet(set3, 5000);
+    //excludeSet(set3, 2000);
+    includeSet(set3, 1);
+    printSet(set3);
+    writeln(getSize(set3));
+    writeln(inSet(set3, 1));
+    writeln(inSet(set3, 11));
+    writeln(inSet(set3, 50001));
+    
+    
 
 end.

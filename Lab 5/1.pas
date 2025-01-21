@@ -4,23 +4,6 @@
 {$H+}
 uses sysutils, variants;
 
-// type  
-//     TIntReverseHelper = type helper (TIntegerHelper) for integer  
-//         procedure IntReverse;
-// end;
-
-// procedure TIntReverseHelper.IntReverse;
-// var
-//     tmp: integer;
-// begin
-//     tmp := self;
-//     result := 0;
-//     while tmp > 0 do
-//     begin
-//         result := (result * 10) + (tmp mod 10);
-//         tmp := tmp div 10;
-//     end;
-// end;
 
 operator := (x:string):double;
 begin
@@ -217,9 +200,6 @@ BEGIN
     writeln('d / s = ', d / s:0:6);
     writeln('s / d = ', s / d:0:6);
     writeln();
-
-    // c := 123456;
-    // writeln(c.IntReverse);
 
 END.
 
