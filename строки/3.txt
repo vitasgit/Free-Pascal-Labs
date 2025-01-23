@@ -1,0 +1,11 @@
+{$mode objfpc}
+program n0;
+
+
+var
+  s: ShortString;
+
+begin
+  s := 'abc';
+  writeln(s[0]);  // должен выводит размер строки
+end.
