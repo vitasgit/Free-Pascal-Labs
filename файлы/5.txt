@@ -1,0 +1,49 @@
+// Перенаправляем стандартный вывод
+
+program RedirectOutput;
+
+begin
+  AssignFile(Output, 'output.txt');  // Перенаправляем стандартный вывод
+  Rewrite(Output);
+  WriteLn('This will go to output.txt');
+  WriteLn('Another line in the file.');
+  CloseFile(Output);
+end.
+
+
+
+// Работа с файлами прямого доступа
+program RandomAccessFile;
+
+type
+  TRecord = record
+    ID: Integer;
+    Name: string[20];
+  end;
+
+var
+  F: File of TRecord;
+  Rec: TRecord;
+
+begin
+  AssignFile(F, 'records.dat');
+  Rewrite(F);
+
+  // Добавляем записи
+  Rec.ID := 1;
+  Rec.Name := 'Alice';
+  Write(F, Rec);
+
+  Rec.ID := 2;
+  Rec.Name := 'Bob';
+  Write(F, Rec);
+
+  CloseFile(F);
+
+  // Чтение определённой записи
+  Reset(F);
+  Seek(F, 1);  // Перемещаемся к записи с индексом 1 (второй элемент)
+  Read(F, Rec);
+  WriteLn('ID: ', Rec.ID, ', Name: ', Rec.Name);
+  CloseFile(F);
+end.
