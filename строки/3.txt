@@ -4,8 +4,10 @@ program n0;
 
 var
   s: ShortString;
+  L: integer;
 
 begin
   s := 'abc';
-  writeln(s[0]);  // должен выводит размер строки
+  L := ord(s[0]);
+  writeln(L);  // Для коротких строк, длина хранится в символе с индексом 0
 end.
