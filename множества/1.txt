@@ -9,6 +9,8 @@ var
   i: char;
   mySet: charSet;
   day: week;
+  p: ^byte;
+  bit: byte;
 
 begin
   mySet := ['a', 'b', 'c'];
@@ -22,4 +24,17 @@ begin
   begin
     writeln(day);
   end;
+
+  writeln(sizeof(week));  // 4 байта
+  writeln(sizeof(charSet));  // 32 байта
+
+  // Вывод через побитовый сдвиг вправо
+  for bit := 0 to 255 do
+  begin
+    if chr(bit) in mySet then
+      writeln(chr(bit));
+  end;
+
+
+
 end.
