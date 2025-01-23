@@ -1,0 +1,19 @@
+{$mode objfpc}
+program n0;
+var
+  x: integer;
+  px, ppx: ^integer;  // указатель типа integer
+
+begin
+  x := 123;
+  px := @x;  // присваиваем адрес переменной x
+  ppx := px;  // присваиваем адрес переменной x
+
+  WriteLn('px: ', HexStr(NativeInt(px), 8));  // адрес x
+  WriteLn('x: ', HexStr(NativeInt(@x), 8)); // адрес x
+
+  ppx += 1;
+  WriteLn('px: ', HexStr(NativeInt(ppx), 8));  // адрес x + 4 байта
+  px^ += 1;  // разыменновыем адрес который лежит в px и увлеич значение
+  WriteLn(x);
+end.

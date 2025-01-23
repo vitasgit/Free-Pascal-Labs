@@ -1,0 +1,25 @@
+{$mode objfpc}
+program n0;
+
+type
+  charSet = set of char;
+  week = (Mon, Tue, Wed, Fri);  // порядковый тип. набор именных констант
+
+var
+  i: char;
+  mySet: charSet;
+  day: week;
+
+begin
+  mySet := ['a', 'b', 'c'];
+
+  for i in mySet do
+  begin
+    writeln(i);
+  end;
+
+  for day in week do
+  begin
+    writeln(day);
+  end;
+end.
