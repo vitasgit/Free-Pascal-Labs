@@ -1,0 +1,25 @@
+{$mode objfpc}
+{$modeswitch typehelpers}
+program StringHelperExample;
+
+type
+    TStringHelper = type helper for String
+        function Reverse: String;
+    end;
+
+function TStringHelper.Reverse: String;
+var
+    i: Integer;
+begin
+    Result := '';
+    for i := Length(Self) downto 1 do
+        Result := Result + Self[i];
+end;
+
+var
+    s: String;
+begin
+    s := 'Hello';
+    Writeln('Original: ', s); // Вывод: Original: Hello
+    Writeln('Reversed: ', s.Reverse); // Вывод: Reversed: olleH
+end.

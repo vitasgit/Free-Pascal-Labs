@@ -1,0 +1,27 @@
+{$mode objfpc}
+{$modeswitch typehelpers}
+program IntegerHelperExample;
+
+type
+    TIntHelper = type helper for Integer
+        function IsEven: Boolean;
+        function Double: Integer;
+    end;
+
+function TIntHelper.IsEven: Boolean;
+begin
+    Result := Self mod 2 = 0; // Self — это значение текущего числа
+end;
+
+function TIntHelper.Double: Integer;
+begin
+    Result := Self * 2;
+end;
+
+var
+    x: Integer;
+begin
+    x := 10;
+    Writeln(x, ' is even: ', x.IsEven); // Вывод: 10 is even: TRUE
+    Writeln(x, ' doubled: ', x.Double); // Вывод: 10 doubled: 20
+end.
