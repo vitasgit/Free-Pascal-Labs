@@ -1,0 +1,14 @@
+program asd;
+uses
+  SysUtils;
+var
+  x: Integer;
+  px: ^Byte;
+  i: Integer;
+begin
+  x := 123;
+  px := @x;
+
+
+  WriteLn(x);
+end.
