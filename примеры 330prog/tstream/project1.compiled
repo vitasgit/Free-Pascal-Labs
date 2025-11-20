@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="/usr/bin/fpc" Date="1622525886"/>
+  <Params Value=" -MObjFPC -Scghi -Cg -O1 -gw3 -gl -l -vewnhibq -Fu/home/slinkin/Documents/alltxt/stat_lek/2025-26/half1/330prog/tstream/ -o/home/slinkin/Documents/alltxt/stat_lek/2025-26/half1/330prog/tstream/project1 -Fr/usr/lib64/fpc/msg/errore.msg project1.lpr"/>
+</CONFIG>

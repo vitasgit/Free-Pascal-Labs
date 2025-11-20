@@ -1,0 +1,95 @@
+unit sRW;
+
+{$mode ObjFPC}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils;
+
+procedure WData(S:TStream);
+procedure RData(S:TStream);
+
+procedure WriterData(S:TStream);
+procedure ReaderData(S:TStream);
+
+
+
+implementation
+
+procedure WriterData(S:TStream);
+  var f:TWriter;
+      str:string;
+      i:integer;
+begin
+ f:=TWriter.Create(s,1024);
+ f.WriteListBegin;
+ while true do begin
+   readln(str);
+   if str='' then break;
+   f.WriteString(str);
+ end;
+ f.WriteListEnd;
+
+ f.WriteListBegin;
+ while true do begin
+   readln(i);
+   if i=0 then break;
+   f.WriteInteger(i);
+ end;
+ f.WriteListEnd;
+ f.free;
+end;
+
+procedure ReaderData(S:TStream);
+  var f:TReader;
+      str:string;
+      i:integer;
+begin
+ f:=TReader.Create(s,1024);
+ f.ReadListBegin;
+ while not f.EndOfList do begin
+   str:=f.ReadString;
+   writeln(str);
+ end;
+ f.ReadListEnd;
+
+ f.ReadListBegin;
+ while not f.EndOfList do
+       writeln(f.ReadInteger);
+ f.ReadListEnd;
+ f.free;
+end;
+
+
+
+procedure WData(S:TStream);
+  var str:string;
+begin
+  while true do begin
+    readln(str);
+    if str='' then break;
+    s.WriteAnsiString(str);
+  end;
+end;
+
+procedure RData(S:TStream);
+  var str:string;
+begin
+  while true do begin
+{
+    try
+       str:=s.ReadAnsiString;
+    except
+//      writeln(s.position, s.size);
+      break;
+    end;
+}
+    if s.position=s.size then break;
+    str:=s.ReadAnsiString;
+    writeln(str);
+  end;
+end;
+
+end.
+

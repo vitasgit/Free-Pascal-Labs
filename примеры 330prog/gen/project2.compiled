@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="/usr/bin/fpc" Date="1729704584"/>
+  <Params Value="-MObjFPC -Scgi -Cg -O1 -gw3 -gl -l -vewnhibq &apos;-Fu/home/vitaly/Документы/GitHub/Free-Pascal-Labs/примеры 330prog/gen/&apos; &apos;-o/home/vitaly/Документы/GitHub/Free-Pascal-Labs/примеры 330prog/gen/project2&apos; -Fr/usr/lib64/fpc/msg/errore.msg project2.lpr"/>
+</CONFIG>

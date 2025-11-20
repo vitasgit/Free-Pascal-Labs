@@ -1,0 +1,33 @@
+program project2;
+uses sysutils,math;
+
+type
+  generic TArray<T>=array of T;
+  TIntArray = specialize TArray<integer>;
+  TFloatArray = specialize TArray<float>;
+
+var
+  i:TIntArray;
+  f:TFloatArray;
+  s:specialize TArray<string>;
+  vi:integer;
+  fi:float;
+  si:string;
+  x:integer;
+begin
+  setLength(i,10);
+  setLength(f,10);
+  setLength(s,10);
+  for x:=0 to 9 do begin
+    i[x]:=random(256);
+    f[x]:=random;
+    s[x]:='Test'+inttostr(random(256));
+  end;
+
+  for x:=0 to 9 do begin
+    writeln(i[x], ' ',f[x],' ',s[x]);
+  end;
+
+
+end.
+

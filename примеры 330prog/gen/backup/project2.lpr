@@ -1,0 +1,40 @@
+program project2;
+uses sysutils,math;
+
+{
+Специализация в рамках одного конектретного типа.
+один дженерик.
+Так же можно создавать классы и интерфейсы.
+один или неколько через запяткую идентификаторов в угловых скобках
+внутри этого описания исполььзовать эти индентификатры для того, чтобы определять что здесь будут такие-то типы данных
+}
+type
+  generic TArray<T>=array of T;
+  TIntArray = specialize TArray<integer>;
+  TFloatArray = specialize TArray<float>;
+
+var
+  i:TIntArray;
+  f:TFloatArray;
+  s:specialize TArray<string>;
+  vi:integer;
+  fi:float;
+  si:string;
+  x:integer;
+begin
+  setLength(i,10);
+  setLength(f,10);
+  setLength(s,10);
+  for x:=0 to 9 do begin
+    i[x]:=random(256);
+    f[x]:=random;
+    s[x]:='Test'+inttostr(random(256));
+  end;
+
+  for x:=0 to 9 do begin
+    writeln(i[x], ' ',f[x]:0:3,' ',s[x]);
+  end;
+
+
+end.
+

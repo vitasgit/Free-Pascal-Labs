@@ -1,0 +1,21 @@
+program project4;
+
+{$mode objfpc}{$H+}
+
+uses
+  {$IFDEF UNIX}
+  cthreads,
+  {$ENDIF}
+  Classes, sRW
+  { you can add units after this };
+  // TStream
+
+ var s:TStream;
+begin
+  s:=TMemoryStream.Create();
+  WriterData(s);
+  s.position:=0;
+  ReaderData(s);
+  s.Free;
+end.
+

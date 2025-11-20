@@ -1,0 +1,118 @@
+program project1;
+uses sysutils;
+//{$interfaces COM}
+{$interfaces CORBA}
+
+type
+  IShow=interface
+    // ['{FBD583AF-FA13-4B64-B576-337EFCEFB772}']
+    function getInfo:string;
+    procedure Show;
+  end;
+
+  IDebugShow=interface
+    // ['{FBD583AF-FA13-4B64-B576-337EFCEFB772}']
+    function getDebugInfo:string;
+    procedure DebugShow;
+  end;
+
+  { TPeople }
+
+  TPeople=class(TObject,IShow)
+    private
+      fFio,fPassport:string;
+    public
+      constructor Create(f,p:string);
+      property fio:string read fFio;
+      property passport:string read fPassport;
+      function getInfo:string;
+      procedure Show;
+  end;
+
+
+  { TLine }
+
+  TLine=class(TObject,IShow,IDebugShow)
+      x1,y1,x2,y2:integer;
+      constructor Create(_x1,_y1,_x2,_y2:integer);
+      function getInfo:string;
+      procedure Show;
+      function getDebugInfo:string;
+      procedure DebugShow;
+  end;
+
+{ TLine }
+
+constructor TLine.Create(_x1, _y1, _x2, _y2: integer);
+begin
+  Inherited Create;
+  x1:=_x1;
+  y1:=_y1;
+  x2:=_x2;
+  y2:=_y2;
+end;
+
+function TLine.getInfo: string;
+begin
+ result:='('+IntToStr(x1)+',' +IntToStr(y1)+')-('+
+         IntToStr(x2)+',' +IntToStr(y2)+')';
+end;
+
+procedure TLine.Show;
+begin
+  writeln(getInfo);
+end;
+
+function TLine.getDebugInfo: string;
+begin
+  result:='DEBUG: '+getinfo+'; '+ClassName;
+end;
+
+procedure TLine.DebugShow;
+begin
+  writeln(StdErr,getDebugInfo);
+end;
+
+
+{ TPeople }
+
+constructor TPeople.Create(f, p: string);
+begin
+  inherited Create;
+  fFio:=f;
+  fPassport:=p;
+end;
+
+function TPeople.getInfo: string;
+begin
+  result:='ФИО: '+fio+'; Паспорт: '+passport;
+end;
+
+procedure TPeople.Show;
+begin
+  writeln(getInfo);
+end;
+
+procedure ShowAll(Intf: IShow);
+begin
+  Intf.Show;
+end;
+
+procedure ShowDebugAll(Intf: IDebugShow);
+begin
+  Intf.DebugShow;
+end;
+
+
+var P:TPeople;
+    L:Tline;
+begin
+
+  p:=TPeople.Create('Иванов И.И.','123456 654321');
+  l:=TLine.Create(1,2,10,20);
+  showall(p);
+  showall(l);
+  showDebugAll(l);
+
+end.
+

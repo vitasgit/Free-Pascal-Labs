@@ -1,6 +1,6 @@
 Program n01;
 var
-    nums : array[1..25, 1..30] of Integer;
+    nums : array[1..10, 1..10] of Integer;
     i, j: Integer;
 begin
     //Ввод
