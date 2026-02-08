@@ -1,0 +1,90 @@
+object Form1: TForm1
+  Left = 200
+  Height = 265
+  Top = 31
+  Width = 612
+  Caption = 'Form1'
+  ClientHeight = 265
+  ClientWidth = 612
+  Constraints.MaxHeight = 500
+  Constraints.MaxWidth = 1000
+  Constraints.MinHeight = 100
+  Constraints.MinWidth = 500
+  Position = poScreenCenter
+  OnChangeBounds = FormChangeBounds
+  OnResize = FormResize
+  object Panel1: TPanel
+    Left = 31
+    Height = 215
+    Top = 25
+    Width = 561
+    Anchors = []
+    BevelOuter = bvNone
+    ClientHeight = 215
+    ClientWidth = 561
+    Font.Color = clNone
+    ParentFont = False
+    TabOrder = 0
+    object Label2: TLabel
+      Left = 32
+      Height = 34
+      Top = 116
+      Width = 140
+      Caption = 'Размер по Y'
+      Font.Height = -24
+      ParentFont = False
+    end
+    object Label1: TLabel
+      Left = 31
+      Height = 34
+      Top = 64
+      Width = 140
+      Caption = 'Размер по X'
+      Font.Height = -24
+      ParentFont = False
+    end
+    object Button1: TButton
+      Left = 344
+      Height = 32
+      Top = 68
+      Width = 95
+      Caption = 'Демо +'
+      TabOrder = 2
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 344
+      Height = 32
+      Top = 116
+      Width = 95
+      Caption = 'Демо -'
+      TabOrder = 3
+      OnClick = Button2Click
+    end
+    object Edit2: TEdit
+      Left = 224
+      Height = 36
+      Top = 112
+      Width = 80
+      TabOrder = 1
+      Text = 'Edit2'
+      OnEditingDone = Edit2EditingDone
+    end
+    object Edit1: TEdit
+      Left = 224
+      Height = 36
+      Top = 64
+      Width = 80
+      TabOrder = 0
+      Text = 'Edit1'
+      OnChange = Edit1Change
+      OnEditingDone = Edit1EditingDone
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 50
+    OnTimer = Timer1Timer
+    Left = 72
+  end
+end
