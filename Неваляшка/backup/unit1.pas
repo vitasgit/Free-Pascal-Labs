@@ -50,6 +50,8 @@ procedure TForm1.FormResize(Sender: TObject);
 begin
   Edit1.Text:= IntToStr(Width);
   Edit2.Text:= IntToStr(Height);
+  Panel1.Left:= (ClientWidth - Panel1.Width) div 2;
+  Panel1.Top:= (ClientHeight - Panel1.Height) div 2;
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
@@ -68,7 +70,7 @@ begin
       end;
 
     0:
-      if (Width > Constraints.MinWidth) or (Height < Constraints.MinHeight) then
+      if (Width > Constraints.MinWidth) or (Height > Constraints.MinHeight) then
       begin
         Width:= Width-10;
         Height:= Height-10;
@@ -99,8 +101,8 @@ end;
 
 procedure TForm1.Edit1Change(Sender: TObject);
 begin
-  Panel1.Left:= (ClientWidth - Panel1.Width)  div 2;
-  Panel1.Top:= (ClientHeight - Panel1.Height) div 2;
+  //Panel1.Left:= (ClientWidth - Panel1.Width) div 2;
+  //Panel1.Top:= (ClientHeight - Panel1.Height) div 2;
 end;
 
 procedure TForm1.Edit1EditingDone(Sender: TObject);
@@ -122,8 +124,8 @@ end;
 
 procedure TForm1.FormChangeBounds(Sender: TObject);
 begin
-  Left:= (Screen.Width - Form1.Width) div 2;
-  Top:= (Screen.Height - Form1.Height) div 2;
+  //Left:= (Screen.Width - Form1.Width) div 2;
+  //Top:= (Screen.Height - Form1.Height) div 2;
   //Form1.Position:= poScreenCenter;
 end;
 

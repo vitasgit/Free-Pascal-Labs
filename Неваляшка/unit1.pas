@@ -50,6 +50,8 @@ procedure TForm1.FormResize(Sender: TObject);
 begin
   Edit1.Text:= IntToStr(Width);
   Edit2.Text:= IntToStr(Height);
+  Panel1.Left:= (ClientWidth - Panel1.Width) div 2;
+  Panel1.Top:= (ClientHeight - Panel1.Height) div 2;
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
@@ -99,8 +101,8 @@ end;
 
 procedure TForm1.Edit1Change(Sender: TObject);
 begin
-  Panel1.Left:= (ClientWidth - Panel1.Width)  div 2;
-  Panel1.Top:= (ClientHeight - Panel1.Height) div 2;
+  //Panel1.Left:= (ClientWidth - Panel1.Width) div 2;
+  //Panel1.Top:= (ClientHeight - Panel1.Height) div 2;
 end;
 
 procedure TForm1.Edit1EditingDone(Sender: TObject);
