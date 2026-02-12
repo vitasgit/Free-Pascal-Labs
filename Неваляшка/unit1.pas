@@ -106,10 +106,12 @@ begin
   //Panel1.Top:= (ClientHeight - Panel1.Height) div 2;
 end;
 
+// ------------ БАГ С ВВОДОМ, НУЖЕН TryStrToInt (уже есть в 219) ------------------------------------------
 procedure TForm1.Edit1EditingDone(Sender: TObject);
 begin
   Width:= StrToInt(Edit1.Text);
   Edit1.Text:= IntToStr(Width);
+
 end;
 
 procedure TForm1.Edit2EditingDone(Sender: TObject);
