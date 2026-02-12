@@ -14,9 +14,9 @@ object Form1: TForm1
   OnChangeBounds = FormChangeBounds
   OnResize = FormResize
   object Panel1: TPanel
-    Left = 152
+    Left = 27
     Height = 128
-    Top = 104
+    Top = 43
     Width = 409
     Anchors = []
     BevelOuter = bvNone
