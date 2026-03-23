@@ -1,0 +1,169 @@
+object Form1: TForm1
+  Left = 247
+  Height = 466
+  Top = 250
+  Width = 808
+  Caption = 'Form1'
+  ClientHeight = 466
+  ClientWidth = 808
+  DesignTimePPI = 102
+  object Panel1: TPanel
+    Left = 67
+    Height = 450
+    Top = 0
+    Width = 741
+    Align = alClient
+    ClientHeight = 450
+    ClientWidth = 741
+    TabOrder = 0
+    object PaintBox1: TPaintBox
+      Left = 1
+      Height = 448
+      Top = 1
+      Width = 739
+      Align = alClient
+    end
+  end
+  object Label1: TLabel
+    Left = 0
+    Height = 16
+    Top = 450
+    Width = 808
+    Align = alBottom
+    Caption = 'Label1'
+  end
+  object Panel2: TPanel
+    Left = 0
+    Height = 450
+    Top = 0
+    Width = 67
+    Align = alLeft
+    Caption = 'Panel2'
+    ClientHeight = 450
+    ClientWidth = 67
+    TabOrder = 1
+    object FlowPanel1: TFlowPanel
+      Left = 1
+      Height = 448
+      Top = 1
+      Width = 72
+      Align = alLeft
+      ControlList = <      
+        item
+          Control = SpeedButton1
+          WrapAfter = waAuto
+          Index = 0
+        end      
+        item
+          Control = SpeedButton2
+          WrapAfter = waAuto
+          Index = 1
+        end      
+        item
+          Control = SpeedButton3
+          WrapAfter = waAuto
+          Index = 2
+        end      
+        item
+          Control = Bevel1
+          WrapAfter = waAuto
+          Index = 3
+        end      
+        item
+          Control = SpeedButton4
+          WrapAfter = waAuto
+          Index = 4
+        end      
+        item
+          Control = SpeedButton5
+          WrapAfter = waAuto
+          Index = 5
+        end>
+      FlowLayout = tlTop
+      FlowStyle = fsLeftRightTopBottom
+      TabOrder = 0
+      object SpeedButton1: TSpeedButton
+        Left = 1
+        Height = 55
+        Top = 1
+        Width = 63
+        Anchors = []
+        Caption = '□'
+        Images = ImageList1
+        ImageIndex = 0
+        ImageWidth = 30
+        ShowCaption = False
+      end
+      object SpeedButton2: TSpeedButton
+        Left = 1
+        Height = 55
+        Top = 56
+        Width = 63
+        Anchors = []
+        Caption = '□'
+        Font.Height = -91
+        Font.Name = 'Sans'
+        ParentFont = False
+      end
+      object SpeedButton3: TSpeedButton
+        Left = 1
+        Height = 55
+        Top = 111
+        Width = 63
+        Anchors = []
+      end
+      object Bevel1: TBevel
+        Left = 1
+        Height = 12
+        Top = 166
+        Width = 63
+        Anchors = []
+      end
+      object SpeedButton4: TSpeedButton
+        Left = 1
+        Height = 55
+        Top = 178
+        Width = 63
+        Anchors = []
+      end
+      object SpeedButton5: TSpeedButton
+        Left = 1
+        Height = 55
+        Top = 233
+        Width = 63
+        Anchors = []
+      end
+    end
+  end
+  object ImageList1: TImageList
+    Height = 15
+    Width = 15
+    Left = 32
+    Top = 320
+    Bitmap = {
+      4C7A010000000F0000000F000000BF0200000000000078DA7D527D2C14601877
+      B838EEDC897C5C72F9AADD4925996E87CE67E1B673973BF9C8D7A6D9A296CE47
+      E5DB6ED4507F20924A4934DA9DF2B9884E588BA125AC0F548BE66FAB3FF4EBBD
+      5B9ACA7AB6DF9EE7F9BDCFEFD9FBBCEFA3A7F7A719502854274B4668A8BB4351
+      A48F6B95D63B925CCBEBFDC7B8B62C496DC689C5B9FE562C4F8FE1EBEC14BE4C
+      8DE24DCF3DD4A4472D726D99D2CD747E5C76E66863193E8D0F138CE0E3D8106E
+      9497E0C3483FE647FAF05ED30D4D5D217C77DB646FD4396F63843CADBAF063AE
+      4F8DCA826C5CB9A8C08BD606D8D958233C488829F55DBC52DDC1E4C35BE8B99C
+      06070BBAF89794A28CF69D1E6FBE86F1961AA4C844201C2AD24FC29265A68B2F
+      A5C663B8AE14B949720C5517A220C2EB1DE1B758338C3D3B8A12A121DCB3CA7C
+      88BD3D74F53C0E1BDE7B5C6061668AFAB371381DEE0F0AE16BD3A2D0A690C0D2
+      D4E88887BD794A577E3CEE67C6A3232F1937D3227174BF0B32C43E683F1F0775
+      562C5499D1B062D2753D93030E40AD10C37D07AB50E06491A9227D1285FB6062
+      44858CCF257DA550651D436E8400C7053C9427F8C3876707577B0B34A687A13B
+      4F0CA2AB76633313BA7244A83D15ACBB93B6775C000F8981AEBA580BDA1643E4
+      C71C426F89049A0A19064A4570B53553328DA9CE6D19420C5D95A130DE0B521F
+      47A88AC3C0E7D9FCD6AE43EAEB88F17A19DA7384601819EADE3A35D0F9C9CBEB
+      524CDC9661B24186F234FE3F3A2D3262F7E2759314A9414E3324B7D26ACD6954
+      B7A673FCD5B9D608BC55917FA81761279B0E037D0A9CEC18880973446B991F16
+      3A23D092C5FFCEA2511337EE0767AB89A449E1B53AFF4882A501399607E5581A
+      946165488E95E7727CEE95A225DBEB1BA92B22E5C67FEF2599C133E93047F3B8
+      58B036D31C82857611661F84A05329584B127226C879DC66BA0D463532D43FB8
+      9D493BB3CB8AAE243E8BE4C1EBF36DB49F262F5809
+    }
+  end
+end
