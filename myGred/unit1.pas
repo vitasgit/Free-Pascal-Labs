@@ -79,10 +79,11 @@ begin
 
   //WriteLn('Brush.Color = ', PaintBox1.Canvas.Brush.Color);
   //WriteLn('PaintBox1.Color = ', PaintBox1.Color);
+
+
+  {!!!!!!  БАГ с цветом холста и прямоугольников}
   bgColor:= PaintBox1.Color;
-  PaintBox1.Canvas.Brush.Color:= PaintBox1.Color;     {!!!!!!  БАГ с цветом холста и прямоугольников}
-
-
+  PaintBox1.Canvas.Brush.Color:= PaintBox1.Color;
 
 end;
 
@@ -136,7 +137,10 @@ begin
 
       PaintBox1.Canvas.Clear;
       drawFig;
+
+      PaintBox1.Canvas.Brush.Color:= clRed;
       PaintBox1.Canvas.Rectangle(SingleXY.x1, SingleXY.y1, SingleXY.x2, SingleXY.y2);
+      PaintBox1.Canvas.Brush.Color:= bgColor;  // fix бага с закраской холста
     end;
 
   end;
@@ -194,9 +198,12 @@ begin
     end
     else if ArrXY[i].fig = 'прямоугольники' then
     begin
-       PaintBox1.Canvas.Rectangle(ArrXY[i].x1, ArrXY[i].y1, ArrXY[i].x2, ArrXY[i].y2);
+      PaintBox1.Canvas.Brush.Color:= clRed;
+      PaintBox1.Canvas.Rectangle(ArrXY[i].x1, ArrXY[i].y1, ArrXY[i].x2, ArrXY[i].y2);
     end;
   end;
+
+  PaintBox1.Canvas.Brush.Color:= bgColor; // fix бага с закраской холста
 
 end;
 
