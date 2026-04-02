@@ -121,6 +121,7 @@ object Form1: TForm1
         Images = ImageList1
         ImageIndex = 2
         ImageWidth = 35
+        OnClick = SpeedButton3Click
       end
       object Bevel1: TBevel
         Left = 1

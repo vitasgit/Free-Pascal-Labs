@@ -47,6 +47,7 @@ type
     procedure DrawFig;
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
+    procedure SpeedButton3Click(Sender: TObject);
 
   private
     //X1, Y1: integer;
@@ -113,6 +114,13 @@ begin
     SingleXY.y1:= Y;
     SingleXY.x2:= X;
     SingleXY.y2:= Y;
+  end
+  else if rezhim = 'эллипсы' then
+  begin
+    SingleXY.x1:= X;
+    SingleXY.y1:= Y;
+    SingleXY.x2:= X;
+    SingleXY.y2:= Y;
   end;
 
 end;
@@ -132,7 +140,7 @@ begin
     end
     else if rezhim = 'прямоугольники' then
     begin
-      SingleXY.x2:= X;  // чтобы не было мусорных значений
+      SingleXY.x2:= X;
       SingleXY.y2:= Y;
 
       PaintBox1.Canvas.Clear;
@@ -140,7 +148,19 @@ begin
 
       PaintBox1.Canvas.Brush.Color:= clRed;
       PaintBox1.Canvas.Rectangle(SingleXY.x1, SingleXY.y1, SingleXY.x2, SingleXY.y2);
-      PaintBox1.Canvas.Brush.Color:= bgColor;
+      PaintBox1.Canvas.Brush.Color:= bgColor;  // fix бага с закраской холста
+    end
+    else if rezhim = 'эллипсы' then
+    begin
+      SingleXY.x2:= X;
+      SingleXY.y2:= Y;
+
+      PaintBox1.Canvas.Clear;
+      drawFig;
+
+      PaintBox1.Canvas.Brush.Color:= clRed;
+      PaintBox1.Canvas.Ellipse(SingleXY.x1, SingleXY.y1, SingleXY.x2, SingleXY.y2);
+      PaintBox1.Canvas.Brush.Color:= bgColor;  // fix бага с закраской холста
     end;
 
   end;
@@ -170,11 +190,22 @@ begin
 
       Count:= Count+1;
       SingleXY.fig:= rezhim;
-      SetLength(ArrXY, Count);  { расширяем массив ПЕРЕД записью! }
+      SetLength(ArrXY, Count);
       ArrXY[Count-1]:= SingleXY;
+      drawFig;
+    end
+    else if rezhim = 'эллипсы' then
+    begin
+      SingleXY.x2:= X;
+      SingleXY.y2:= Y;
 
+      Count:= Count+1;
+      SingleXY.fig:= rezhim;
+      SetLength(ArrXY, Count);
+      ArrXY[Count-1]:= SingleXY;
       drawFig;
     end;
+
     flag:= False;
   end;
 end;
@@ -200,6 +231,11 @@ begin
     begin
       PaintBox1.Canvas.Brush.Color:= clRed;
       PaintBox1.Canvas.Rectangle(ArrXY[i].x1, ArrXY[i].y1, ArrXY[i].x2, ArrXY[i].y2);
+    end
+    else if ArrXY[i].fig = 'эллипсы' then
+    begin
+      PaintBox1.Canvas.Brush.Color:= clRed;
+      PaintBox1.Canvas.Ellipse(ArrXY[i].x1, ArrXY[i].y1, ArrXY[i].x2, ArrXY[i].y2);
     end;
   end;
 
@@ -237,6 +273,12 @@ procedure TForm1.SpeedButton2Click(Sender: TObject);
 begin
   label1.Caption:= 'Отрисовка прямоугольника';
   rezhim:= 'прямоугольники';
+end;
+
+procedure TForm1.SpeedButton3Click(Sender: TObject);
+begin
+  label1.Caption:= 'Отрисовка эллипсов';
+  rezhim:= 'эллипсы';
 end;
 
 initialization
