@@ -45,9 +45,11 @@ type
     //procedure DrawLine;
     //procedure DrawRect;
     procedure DrawFig;
+    function HoverFig(x, y: Integer): integer;
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure SpeedButton3Click(Sender: TObject);
+    procedure SpeedButton4Click(Sender: TObject);
 
   private
     //X1, Y1: integer;
@@ -126,6 +128,8 @@ begin
 end;
 
 procedure TForm1.PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+var
+  iFig: integer;
 begin
   if flag then
   begin
@@ -162,8 +166,31 @@ begin
       PaintBox1.Canvas.Ellipse(SingleXY.x1, SingleXY.y1, SingleXY.x2, SingleXY.y2);
       PaintBox1.Canvas.Brush.Color:= bgColor;  // fix бага с закраской холста
     end;
+  end;
+
+  if rezhim = 'перемещение' then
+  begin
+    iFig:= HoverFig(X, Y);
+
+    if iFig <> -1 then
+    begin
+      PaintBox1.Canvas.Clear;
+      drawFig;
+
+      PaintBox1.Canvas.Pen.Width:= 5;
+      PaintBox1.Canvas.Brush.Color:= clRed;
+      PaintBox1.Canvas.Rectangle(ArrXY[iFig].x1, ArrXY[iFig].y1, ArrXY[iFig].x2, ArrXY[iFig].y2);
+      PaintBox1.Canvas.Brush.Color:= bgColor;
+      PaintBox1.Canvas.Pen.Width:= 1;
+    end
+    else
+    begin
+
+    end;
 
   end;
+
+
 end;
 
 procedure TForm1.PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
@@ -180,7 +207,6 @@ begin
       SingleXY.fig:= rezhim;
       SetLength(ArrXY, Count);
       ArrXY[Count-1]:= SingleXY;
-
       drawFig;
     end
     else if rezhim = 'прямоугольники' then
@@ -243,6 +269,44 @@ begin
 
 end;
 
+// x, y - курсор
+//function TFPRectRegion.IsPointInRegion(AX, AY: Integer): Boolean;
+//begin
+//  Result := (AX >= Rect.Left) and (AX <= Rect.Right) and
+//    (AY >= Rect.Top) and (AY <= Rect.Bottom);
+//end;
+function TForm1.HoverFig(x, y: Integer): integer;
+var
+  Rleft, Right, RTop, RBottom, i: integer;
+begin
+  for i:=0 to Length(ArrXY)-1 do
+  begin
+    Rleft:= ArrXY[i].x1;
+    Right:= ArrXY[i].x2;
+    RTop:= ArrXY[i].y1;
+    RBottom:= ArrXY[i].y2;
+
+    if (ArrXY[i].x1 > ArrXY[i].x2) then
+    begin
+      Rleft:= ArrXY[i].x2;
+      Right:= ArrXY[i].x1;
+    end;
+    if (ArrXY[i].y1 > ArrXY[i].y2) then
+    begin
+      RTop:= ArrXY[i].y2;
+      RBottom:= ArrXY[i].y1;
+    end;
+
+    if (x >= Rleft) and (x <= Right) and
+       (y >= RTop) and (y <= RBottom) then
+    begin
+       exit(i);
+    end;
+  end;
+  result:= -1;
+
+end;
+
 //procedure TForm1.DrawLine;
 //var
 //  i: integer;
@@ -279,6 +343,13 @@ procedure TForm1.SpeedButton3Click(Sender: TObject);
 begin
   label1.Caption:= 'Отрисовка эллипсов';
   rezhim:= 'эллипсы';
+
+end;
+
+procedure TForm1.SpeedButton4Click(Sender: TObject);
+begin
+  label1.Caption:= 'Режим перемещения';
+  rezhim:= 'перемещение';
 end;
 
 initialization
