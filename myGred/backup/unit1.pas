@@ -44,7 +44,7 @@ type
 
     //procedure DrawLine;
     //procedure DrawRect;
-    procedure DrawFig;
+    procedure DrawFig(iFig: integer);
     function HoverFig(x, y: Integer): integer;
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
@@ -54,6 +54,7 @@ type
   private
     //X1, Y1: integer;
     flag: Boolean;
+    iCatchFig: integer;
 
     ArrXY: TArrXY;
     SingleXY: TSingleXY;
@@ -152,7 +153,7 @@ begin
       SingleXY.y2:= Y;
 
       PaintBox1.Canvas.Clear;
-      drawFig;  // старые линии
+      drawFig(-1);  // старые линии
       PaintBox1.Canvas.Line(SingleXY.x1, SingleXY.y1, SingleXY.x2, SingleXY.y2);  // новая линия(линии)
     end
     else if rezhim = 'прямоугольники' then
@@ -161,7 +162,7 @@ begin
       SingleXY.y2:= Y;
 
       PaintBox1.Canvas.Clear;
-      drawFig;
+      drawFig(-1);
 
       PaintBox1.Canvas.Brush.Color:= clRed;
       PaintBox1.Canvas.Rectangle(SingleXY.x1, SingleXY.y1, SingleXY.x2, SingleXY.y2);
@@ -173,7 +174,7 @@ begin
       SingleXY.y2:= Y;
 
       PaintBox1.Canvas.Clear;
-      drawFig;
+      drawFig(-1);
 
       PaintBox1.Canvas.Brush.Color:= clRed;
       PaintBox1.Canvas.Ellipse(SingleXY.x1, SingleXY.y1, SingleXY.x2, SingleXY.y2);
@@ -199,7 +200,7 @@ begin
     end;
 
     PaintBox1.Canvas.Clear;
-    drawFig;
+    drawFig(-1);
 
     if iFig <> -1 then
     begin
@@ -208,11 +209,14 @@ begin
 
       // условия для каждой фигуры
       if ArrXY[iFig].fig = 'прямоугольники' then
-         PaintBox1.Canvas.Rectangle(ArrXY[iFig].x1, ArrXY[iFig].y1, ArrXY[iFig].x2, ArrXY[iFig].y2)
+         drawFig(iFig)
+         //PaintBox1.Canvas.Rectangle(ArrXY[iFig].x1, ArrXY[iFig].y1, ArrXY[iFig].x2, ArrXY[iFig].y2)
       else if ArrXY[iFig].fig = 'линии' then
-           PaintBox1.Canvas.Line(ArrXY[iFig].x1, ArrXY[iFig].y1, ArrXY[iFig].x2, ArrXY[iFig].y2)
+           drawFig(iFig)
+           //PaintBox1.Canvas.Line(ArrXY[iFig].x1, ArrXY[iFig].y1, ArrXY[iFig].x2, ArrXY[iFig].y2)
       else if ArrXY[iFig].fig = 'эллипсы' then
-           PaintBox1.Canvas.Ellipse(ArrXY[iFig].x1, ArrXY[iFig].y1, ArrXY[iFig].x2, ArrXY[iFig].y2);
+           drawFig(iFig);
+           //PaintBox1.Canvas.Ellipse(ArrXY[iFig].x1, ArrXY[iFig].y1, ArrXY[iFig].x2, ArrXY[iFig].y2);
 
       PaintBox1.Canvas.Brush.Color:= bgColor;
       PaintBox1.Canvas.Pen.Width:= 1;
@@ -236,7 +240,7 @@ begin
       SingleXY.fig:= rezhim;
       SetLength(ArrXY, Count);
       ArrXY[Count-1]:= SingleXY;
-      drawFig;
+      drawFig(-1);
     end
     else if rezhim = 'прямоугольники' then
     begin
@@ -247,7 +251,7 @@ begin
       SingleXY.fig:= rezhim;
       SetLength(ArrXY, Count);
       ArrXY[Count-1]:= SingleXY;
-      drawFig;
+      drawFig(-1);
     end
     else if rezhim = 'эллипсы' then
     begin
@@ -258,7 +262,7 @@ begin
       SingleXY.fig:= rezhim;
       SetLength(ArrXY, Count);
       ArrXY[Count-1]:= SingleXY;
-      drawFig;
+      drawFig(-1);
     end;
 
     flag:= False;
@@ -270,19 +274,29 @@ begin
     end;
 end;
 
-// зачем данная процедура, можно ли обойтись без неё?
-// на каком событии она срабатывает?
+
 procedure TForm1.PaintBox1Paint(Sender: TObject);
 begin
-  drawFig;
+  //drawFig;
 end;
 
-procedure TForm1.DrawFig;
+procedure TForm1.DrawFig(iFig: integer);
 var
   i: integer;
 begin
   for i:=0 to Length(ArrXY)-1 do
   begin
+    if i = iFig then
+    begin
+      // Выделенная фигура — жирное перо
+      PaintBox1.Canvas.Pen.Width:= 3;
+    end
+    else
+    begin
+      // Обычная фигура
+      PaintBox1.Canvas.Pen.Width:= 1;
+    end;
+
     if ArrXY[i].fig = 'линии' then
     begin
       PaintBox1.Canvas.Line(ArrXY[i].x1, ArrXY[i].y1, ArrXY[i].x2, ArrXY[i].y2);
@@ -313,7 +327,7 @@ function TForm1.HoverFig(x, y: Integer): integer;
 var
   Rleft, Right, RTop, RBottom, i: integer;
 begin
-  for i:= Length(ArrXY)-1 downto 0 do  // исправил баг с обводкой
+  for i:= Length(ArrXY)-1 downto 0 do
   begin
     Rleft:= ArrXY[i].x1;
     Right:= ArrXY[i].x2;
