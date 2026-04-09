@@ -60,6 +60,7 @@ type
     Count: integer;
     rezhim: string;
     bgColor: TColor;
+    x0,y0, iFig: integer;
 
   public
 
@@ -83,8 +84,6 @@ begin
   //WriteLn('Brush.Color = ', PaintBox1.Canvas.Brush.Color);
   //WriteLn('PaintBox1.Color = ', PaintBox1.Color);
 
-
-  {!!!!!!  БАГ с цветом холста и прямоугольников}
   bgColor:= PaintBox1.Color;
   PaintBox1.Canvas.Brush.Color:= PaintBox1.Color;
 
@@ -92,6 +91,8 @@ end;
 
 procedure TForm1.PaintBox1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
+//var
+  //iFig: integer;
 begin
   flag:= True;
 
@@ -125,11 +126,23 @@ begin
     SingleXY.y2:= Y;
   end;
 
+  if rezhim = 'перемещение' then
+  begin
+    iFig:= HoverFig(X, Y);
+    if iFig <> -1 then
+    begin
+      x0:= X;
+      y0:= Y;
+      flag:= True;
+    end;
+  end;
+
 end;
 
 procedure TForm1.PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 var
-  iFig: integer;
+  //iFig: integer;
+  dx, dy: integer;
 begin
   if flag then
   begin
@@ -170,24 +183,40 @@ begin
 
   if rezhim = 'перемещение' then
   begin
-    iFig:= HoverFig(X, Y);
+    iFig := HoverFig(X, Y);
+
+    if flag and (iFig <> -1) then
+    begin
+      dx:= X - x0;
+      dy:= Y - y0;
+
+      ArrXY[iFig].x1:= ArrXY[iFig].x1 + dx;
+      ArrXY[iFig].x2:= ArrXY[iFig].x2 + dx;
+      ArrXY[iFig].y1:= ArrXY[iFig].y1 + dy;
+      ArrXY[iFig].y2:= ArrXY[iFig].y2 + dy;
+      x0:= X;
+      y0:= Y;
+    end;
+
+    PaintBox1.Canvas.Clear;
+    drawFig;
 
     if iFig <> -1 then
     begin
-      PaintBox1.Canvas.Clear;
-      drawFig;
-
-      PaintBox1.Canvas.Pen.Width:= 5;
+      PaintBox1.Canvas.Pen.Width:= 3;
       PaintBox1.Canvas.Brush.Color:= clRed;
-      PaintBox1.Canvas.Rectangle(ArrXY[iFig].x1, ArrXY[iFig].y1, ArrXY[iFig].x2, ArrXY[iFig].y2);
+
+      // условия для каждой фигуры
+      if ArrXY[iFig].fig = 'прямоугольники' then
+         PaintBox1.Canvas.Rectangle(ArrXY[iFig].x1, ArrXY[iFig].y1, ArrXY[iFig].x2, ArrXY[iFig].y2)
+      else if ArrXY[iFig].fig = 'линии' then
+           PaintBox1.Canvas.Line(ArrXY[iFig].x1, ArrXY[iFig].y1, ArrXY[iFig].x2, ArrXY[iFig].y2)
+      else if ArrXY[iFig].fig = 'эллипсы' then
+           PaintBox1.Canvas.Ellipse(ArrXY[iFig].x1, ArrXY[iFig].y1, ArrXY[iFig].x2, ArrXY[iFig].y2);
+
       PaintBox1.Canvas.Brush.Color:= bgColor;
       PaintBox1.Canvas.Pen.Width:= 1;
-    end
-    else
-    begin
-
     end;
-
   end;
 
 
@@ -234,6 +263,11 @@ begin
 
     flag:= False;
   end;
+
+  if rezhim = 'перемещение' then
+    begin
+      flag := False;
+    end;
 end;
 
 // зачем данная процедура, можно ли обойтись без неё?
@@ -279,7 +313,7 @@ function TForm1.HoverFig(x, y: Integer): integer;
 var
   Rleft, Right, RTop, RBottom, i: integer;
 begin
-  for i:=0 to Length(ArrXY)-1 do
+  for i:= Length(ArrXY)-1 downto 0 do  // исправил баг с обводкой
   begin
     Rleft:= ArrXY[i].x1;
     Right:= ArrXY[i].x2;
