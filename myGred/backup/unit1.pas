@@ -54,14 +54,13 @@ type
   private
     //X1, Y1: integer;
     flag: Boolean;
-    iCatchFig: integer;
 
     ArrXY: TArrXY;
     SingleXY: TSingleXY;
     Count: integer;
     rezhim: string;
     bgColor: TColor;
-    x0,y0, iFig: integer;
+    x0,y0, iFig, iCatchFig: integer;   // iFig == iHoverFig
 
   public
 
@@ -129,8 +128,8 @@ begin
 
   if rezhim = 'перемещение' then
   begin
-    iFig:= HoverFig(X, Y);
-    if iFig <> -1 then
+    iCatchFig:= HoverFig(X, Y);
+    if iCatchFig <> -1 then
     begin
       x0:= X;
       y0:= Y;
@@ -186,21 +185,23 @@ begin
   begin
     iFig := HoverFig(X, Y);
 
-    if flag and (iFig <> -1) then
+    if flag and (iCatchFig <> -1) then
     begin
       dx:= X - x0;
       dy:= Y - y0;
 
-      ArrXY[iFig].x1:= ArrXY[iFig].x1 + dx;
-      ArrXY[iFig].x2:= ArrXY[iFig].x2 + dx;
-      ArrXY[iFig].y1:= ArrXY[iFig].y1 + dy;
-      ArrXY[iFig].y2:= ArrXY[iFig].y2 + dy;
+      ArrXY[iCatchFig].x1:= ArrXY[iCatchFig].x1 + dx;
+      ArrXY[iCatchFig].x2:= ArrXY[iCatchFig].x2 + dx;
+      ArrXY[iCatchFig].y1:= ArrXY[iCatchFig].y1 + dy;
+      ArrXY[iCatchFig].y2:= ArrXY[iCatchFig].y2 + dy;
+      iFig:= iCatchFig;
       x0:= X;
       y0:= Y;
     end;
 
     PaintBox1.Canvas.Clear;
-    drawFig(-1);
+    //drawFig(iFig);
+    //drawFig(-1);
 
     if iFig <> -1 then
     begin
@@ -270,7 +271,8 @@ begin
 
   if rezhim = 'перемещение' then
     begin
-      flag := False;
+      flag:= False;
+      iCatchFig:= -1;
     end;
 end;
 
