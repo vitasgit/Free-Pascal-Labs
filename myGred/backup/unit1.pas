@@ -185,7 +185,7 @@ begin
   begin
     iFig := HoverFig(X, Y);
 
-    if flag and (iCatchFig <> -1) then
+    if flag and (iCatchFig <> -1) then   // проверить упрощенное условие
     begin
       dx:= X - x0;
       dy:= Y - y0;
@@ -201,7 +201,7 @@ begin
 
     PaintBox1.Canvas.Clear;
     //drawFig(iFig);
-    //drawFig(-1);
+    drawFig(-1);
 
     if iFig <> -1 then
     begin
