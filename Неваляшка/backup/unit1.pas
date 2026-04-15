@@ -106,7 +106,7 @@ begin
   //Panel1.Top:= (ClientHeight - Panel1.Height) div 2;
 end;
 
-// ------------ БАГ С ВВОДОМ, НУЖЕН TryStrToInt ------------------------------------------
+// ------------ БАГ С ВВОДОМ, НУЖЕН TryStrToInt (уже есть в 219) ------------------------------------------
 procedure TForm1.Edit1EditingDone(Sender: TObject);
 begin
   Width:= StrToInt(Edit1.Text);
@@ -127,13 +127,12 @@ end;
 
 procedure TForm1.FormChangeBounds(Sender: TObject);
 begin
-  Left:= (Screen.Width - Form1.Width) div 2;
+  {Left:= (Screen.Width - Form1.Width) div 2;
   Top:= (Screen.Height - Form1.Height) div 2;
   Panel1.Left:= (ClientWidth - Panel1.Width) div 2;
   Panel1.Top:= (ClientHeight - Panel1.Height) div 2;
   Edit1.Text:= IntToStr(Width);
   Edit2.Text:= IntToStr(Height);
-
   //Form1.Position:= poScreenCenter;
 end;
 

@@ -7,6 +7,7 @@ object Form1: TForm1
   ClientHeight = 439
   ClientWidth = 760
   LCLVersion = '4.2.0.0'
+  OnChangeBounds = FormChangeBounds
   OnCreate = FormCreate
   object Panel1: TPanel
     Left = 63
@@ -26,6 +27,7 @@ object Form1: TForm1
       OnMouseDown = PaintBox1MouseDown
       OnMouseMove = PaintBox1MouseMove
       OnMouseUp = PaintBox1MouseUp
+      OnPaint = PaintBox1Paint
     end
   end
   object Label1: TLabel
@@ -151,6 +153,7 @@ object Form1: TForm1
         Images = ImageList1
         ImageIndex = 4
         ImageWidth = 35
+        OnClick = SpeedButton5Click
       end
     end
   end

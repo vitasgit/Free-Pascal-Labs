@@ -7,10 +7,9 @@
       <Unit>
         <Filename Value="project1.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="78"/>
-        <CursorPos X="50" Y="92"/>
-        <UsageCount Value="37"/>
+        <TopLine Value="150"/>
+        <CursorPos X="45" Y="168"/>
+        <UsageCount Value="38"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -20,10 +19,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="94"/>
+        <TopLine Value="2"/>
         <CursorPos Y="119"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="38"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -45,6 +45,7 @@
       <Unit>
         <Filename Value="../project1.lpr"/>
         <EditorIndex Value="-1"/>
+        <TopLine Value="16"/>
         <CursorPos X="57" Y="25"/>
         <UsageCount Value="10"/>
       </Unit>
@@ -73,18 +74,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="project1.lpr"/>
-        <Caret Line="22" Column="17" TopLine="7"/>
-      </Position>
-      <Position>
-        <Filename Value="project1.lpr"/>
-        <Caret Line="72" Column="3" TopLine="60"/>
-      </Position>
-      <Position>
-        <Filename Value="project1.lpr"/>
-        <Caret Line="71" Column="26" TopLine="57"/>
-      </Position>
       <Position>
         <Filename Value="project1.lpr"/>
         <Caret Line="72" Column="26" TopLine="58"/>
@@ -193,15 +182,29 @@
         <Filename Value="project1.lpr"/>
         <Caret Line="98" Column="46" TopLine="74"/>
       </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="92" Column="50" TopLine="78"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="169" Column="37" TopLine="159"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="166" Column="43" TopLine="159"/>
+      </Position>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>
     </RunParams>
     <HistoryLists>
-      <List Name="LaunchingApplication" Type="File" Count="1">
+      <List Name="LaunchingApplication" Type="File" Count="2">
         <Item1 Value="/usr/bin/konsole -T &apos;Lazarus Run Output&apos; -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </List>
+      <List Name="WorkingDirectory" Type="File" Count="1"/>
+      <List Name="CommandLineParameters" Count="1"/>
     </HistoryLists>
   </ProjectSession>
 </CONFIG>

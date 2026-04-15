@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Buttons, StdCtrls;
+  Buttons, StdCtrls, Math;
 
 type
 
@@ -33,6 +33,7 @@ type
     SpeedButton4: TSpeedButton;
     SpeedButton5: TSpeedButton;
 
+    procedure FormChangeBounds(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure PaintBox1MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -45,11 +46,13 @@ type
     //procedure DrawLine;
     //procedure DrawRect;
     procedure DrawFig(iFig: integer);
+    procedure DeleteFig(x, y: integer);
     function HoverFig(x, y: Integer): integer;
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure SpeedButton3Click(Sender: TObject);
     procedure SpeedButton4Click(Sender: TObject);
+    procedure SpeedButton5Click(Sender: TObject);
 
   private
     //X1, Y1: integer;
@@ -87,6 +90,11 @@ begin
   bgColor:= PaintBox1.Color;
   PaintBox1.Canvas.Brush.Color:= PaintBox1.Color;
 
+end;
+
+procedure TForm1.FormChangeBounds(Sender: TObject);
+begin
+  //DrawFig(-1);
 end;
 
 procedure TForm1.PaintBox1MouseDown(Sender: TObject; Button: TMouseButton;
@@ -137,6 +145,13 @@ begin
     end;
   end;
 
+  // удаление
+  if rezhim = 'удаление' then
+  begin
+    DeleteFig(X, Y);
+    Exit;
+  end;
+
 end;
 
 procedure TForm1.PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
@@ -181,9 +196,9 @@ begin
     end;
   end;
 
-  if rezhim = 'перемещение' then
+  if (rezhim = 'перемещение') or (rezhim = 'удаление') then
   begin
-    iFig := HoverFig(X, Y);
+    iFig:= HoverFig(X, Y);
 
     if flag and (iCatchFig <> -1) then   // проверить упрощенное условие
     begin
@@ -200,7 +215,6 @@ begin
     end;
 
     PaintBox1.Canvas.Clear;
-    //drawFig(iFig);
     drawFig(-1);
 
     if iFig <> -1 then
@@ -232,6 +246,7 @@ procedure TForm1.PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
 begin
   if flag then
   begin
+    // можно сократить на (rezhim = 'линии') or (rezhim = 'прямоугольники') or (rezhim = 'эллипсы')
     if rezhim = 'линии' then
     begin
       SingleXY.x2:= X;
@@ -279,7 +294,7 @@ end;
 
 procedure TForm1.PaintBox1Paint(Sender: TObject);
 begin
-  //drawFig;
+  drawFig(-1);
 end;
 
 procedure TForm1.DrawFig(iFig: integer);
@@ -319,43 +334,166 @@ begin
 
 end;
 
+procedure TForm1.DeleteFig(x, y: integer);
+var
+  i, j: integer;
+begin
+  i:= HoverFig(x, y);
+
+  if i >= 0 then
+  begin
+    // Сдвигаем все элементы после удаляемого на одну позицию влево
+    for j := i to Length(ArrXY)-2 do
+    begin
+      ArrXY[j] := ArrXY[j+1];
+    end;
+    // Уменьшаем массив на 1
+    SetLength(ArrXY, Length(ArrXY)-1);
+  end;
+
+  PaintBox1.Canvas.Clear;
+  DrawFig(-1);
+end;
+
 // x, y - курсор
 //function TFPRectRegion.IsPointInRegion(AX, AY: Integer): Boolean;
 //begin
 //  Result := (AX >= Rect.Left) and (AX <= Rect.Right) and
 //    (AY >= Rect.Top) and (AY <= Rect.Bottom);
 //end;
+
 function TForm1.HoverFig(x, y: Integer): integer;
 var
-  Rleft, Right, RTop, RBottom, i: integer;
+  i: Integer;
+  Rleft, Right, RTop, RBottom: Integer;
+  dx, dy,px,py, d, t: Real;
+  cx,cy,a,b, val:Real;
+  //val: Real;
 begin
-  for i:= Length(ArrXY)-1 downto 0 do
+  Result := -1;
+
+  for i := Length(ArrXY) - 1 downto 0 do
   begin
-    Rleft:= ArrXY[i].x1;
-    Right:= ArrXY[i].x2;
-    RTop:= ArrXY[i].y1;
-    RBottom:= ArrXY[i].y2;
+    if ArrXY[i].fig = 'прямоугольники' then
+    begin
+    { вектор линии }
+    dx := ArrXY[i].x2 - ArrXY[i].x1;
+    dy := ArrXY[i].y2 - ArrXY[i].y1;
 
-    if (ArrXY[i].x1 > ArrXY[i].x2) then
+    { проекция t }
+    t := ((x - ArrXY[i].x1) * dx + (y - ArrXY[i].y1) * dy) / (dx*dx + dy*dy);
+
+    { Ограничиваем t, чтобы найти ближайшую точку ИМЕННО НА ОТРЕЗКЕ }
+    if t < 0 then
+       t := 0
+    else if t > 1 then
+       t := 1;
+
+    { Координаты ближайшей к клику точки на отрезке }
+    px := ArrXY[i].x1 + t * dx;
+    py := ArrXY[i].y1 + t * dy;
+
+    { Расстояние от мышки до этой точки }
+    // L = sqrt((x0-x1)^2 + (y0-y1)^2)
+    d := Sqrt(Sqr(x - px) + Sqr(y - py));
+
+    if d <= 5 then
     begin
-      Rleft:= ArrXY[i].x2;
-      Right:= ArrXY[i].x1;
-    end;
-    if (ArrXY[i].y1 > ArrXY[i].y2) then
+      Result := i;
+      Exit;
+    end
+    end
+
+    { ===================== ПРЯМОУГОЛЬНИК ===================== }
+    else if ArrXY[i].fig = 'прямоугольники' then
     begin
-      RTop:= ArrXY[i].y2;
-      RBottom:= ArrXY[i].y1;
+      { Нормализуем координаты }
+      if ArrXY[i].x1 < ArrXY[i].x2 then
+      begin
+        Rleft := ArrXY[i].x1;
+        Right := ArrXY[i].x2;
+      end
+      else
+      begin
+        Rleft := ArrXY[i].x2;
+        Right := ArrXY[i].x1;
+      end;
+
+      if ArrXY[i].y1 < ArrXY[i].y2 then
+      begin
+        RTop := ArrXY[i].y1;
+        RBottom := ArrXY[i].y2;
+      end
+      else
+      begin
+        RTop := ArrXY[i].y2;
+        RBottom := ArrXY[i].y1;
+      end;
+
+      if (x >= Rleft) and (x <= Right) and
+         (y >= RTop) and (y <= RBottom) then
+      begin
+        Result := i;
+        Exit;
+      end;
+    end
+    { ===================== ЭЛЛИПС ===================== }
+    else if ArrXY[i].fig = 'эллипсы' then
+    begin
+      { Уравнение эллипса: (x-cx)²/a² + (y-cy)²/b² ≤ 1 }
+      cx := (ArrXY[i].x1 + ArrXY[i].x2) / 2.0;
+      cy := (ArrXY[i].y1 + ArrXY[i].y2) / 2.0;
+      a  := Abs(ArrXY[i].x2 - ArrXY[i].x1) / 2.0;
+      b  := Abs(ArrXY[i].y2 - ArrXY[i].y1) / 2.0;
+
+      { Защита от деления на ноль }
+      if (a > 0) and (b > 0) then
+      begin
+        val := Sqr(x - cx) / Sqr(a) + Sqr(y - cy) / Sqr(b);
+
+        if val <= 1.0 then
+        begin
+          Result := i;
+          Exit;
+        end;
+      end;
     end;
 
-    if (x >= Rleft) and (x <= Right) and
-       (y >= RTop) and (y <= RBottom) then
-    begin
-       exit(i);
-    end;
   end;
-  result:= -1;
-
 end;
+
+
+//function TForm1.HoverFig(x, y: Integer): integer;
+//var
+//  Rleft, Right, RTop, RBottom, i: integer;
+//begin
+//  for i:= Length(ArrXY)-1 downto 0 do
+//  begin
+//    Rleft:= ArrXY[i].x1;
+//    Right:= ArrXY[i].x2;
+//    RTop:= ArrXY[i].y1;
+//    RBottom:= ArrXY[i].y2;
+//
+//    if (ArrXY[i].x1 > ArrXY[i].x2) then
+//    begin
+//      Rleft:= ArrXY[i].x2;
+//      Right:= ArrXY[i].x1;
+//    end;
+//    if (ArrXY[i].y1 > ArrXY[i].y2) then
+//    begin
+//      RTop:= ArrXY[i].y2;
+//      RBottom:= ArrXY[i].y1;
+//    end;
+//
+//    if (x >= Rleft) and (x <= Right) and
+//       (y >= RTop) and (y <= RBottom) then
+//    begin
+//       exit(i);
+//    end;
+//  end;
+//  result:= -1;
+//
+//end;
 
 //procedure TForm1.DrawLine;
 //var
@@ -381,25 +519,35 @@ procedure TForm1.SpeedButton1Click(Sender: TObject);
 begin
   label1.Caption:= 'Отрисовка отрезка';
   rezhim:= 'линии';
+  PaintBox1.Cursor:= crHandPoint;
 end;
 
 procedure TForm1.SpeedButton2Click(Sender: TObject);
 begin
   label1.Caption:= 'Отрисовка прямоугольника';
   rezhim:= 'прямоугольники';
+  PaintBox1.Cursor:= crHandPoint;
 end;
 
 procedure TForm1.SpeedButton3Click(Sender: TObject);
 begin
   label1.Caption:= 'Отрисовка эллипсов';
   rezhim:= 'эллипсы';
-
+  PaintBox1.Cursor:= crHandPoint;
 end;
 
 procedure TForm1.SpeedButton4Click(Sender: TObject);
 begin
   label1.Caption:= 'Режим перемещения';
   rezhim:= 'перемещение';
+  PaintBox1.Cursor:= crDrag;
+end;
+
+procedure TForm1.SpeedButton5Click(Sender: TObject);
+begin
+  label1.Caption:= 'Режим удаления';
+  rezhim:= 'удаление';
+  PaintBox1.Cursor:= crNo;
 end;
 
 initialization

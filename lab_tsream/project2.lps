@@ -7,9 +7,9 @@
       <Unit>
         <Filename Value="project2.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="project1"/>
-        <TopLine Value="5"/>
-        <CursorPos X="48" Y="18"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="8"/>
+        <CursorPos Y="17"/>
         <UsageCount Value="50"/>
         <Loaded Value="True"/>
       </Unit>
@@ -17,7 +17,6 @@
         <Filename Value="unit1.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Unit1"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="145"/>
         <CursorPos X="13" Y="167"/>

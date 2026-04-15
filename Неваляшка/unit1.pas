@@ -133,7 +133,6 @@ begin
   Panel1.Top:= (ClientHeight - Panel1.Height) div 2;
   Edit1.Text:= IntToStr(Width);
   Edit2.Text:= IntToStr(Height);
-
   //Form1.Position:= poScreenCenter;
 end;
 
