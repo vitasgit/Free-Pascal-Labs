@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Buttons, StdCtrls, Math;
+  Buttons, StdCtrls, Menus;
 
 type
 
@@ -24,6 +24,15 @@ type
     FlowPanel1: TFlowPanel;
     ImageList1: TImageList;
     Label1: TLabel;
+    MainMenu1: TMainMenu;
+    MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
+    MenuItem3: TMenuItem;
+    MenuItem4: TMenuItem;
+    MenuItem5: TMenuItem;
+    MenuItem6: TMenuItem;
+    MenuItem7: TMenuItem;
+    MenuItem8: TMenuItem;
     PaintBox1: TPaintBox;
     Panel1: TPanel;
     Panel2: TPanel;
@@ -33,7 +42,6 @@ type
     SpeedButton4: TSpeedButton;
     SpeedButton5: TSpeedButton;
 
-    procedure FormChangeBounds(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure PaintBox1MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -90,44 +98,21 @@ begin
   bgColor:= PaintBox1.Color;
   PaintBox1.Canvas.Brush.Color:= PaintBox1.Color;
 
-end;
+  SpeedButton1Click(Form1);
+  SpeedButton1.Down:= True;
 
-procedure TForm1.FormChangeBounds(Sender: TObject);
-begin
-  //DrawFig(-1);
+  form1.DoubleBuffered:= True;
+
 end;
 
 procedure TForm1.PaintBox1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-//var
-  //iFig: integer;
 begin
   flag:= True;
 
-
-  // PaintBox1.Canvas.Line(10,10,100,100);
-  //WriteLn('Brush.Color = ', PaintBox1.Canvas.Brush.Color);
-  //WriteLn('PaintBox1.Color = ', PaintBox1.Color);
-
-  //PaintBox1.Canvas.Rectangle(10,10,100,100);
-  //PaintBox1.Canvas.Ellipse(0,0,30,60);
-
-  if rezhim = 'линии' then
-  begin
-    SingleXY.x1:= X;
-    SingleXY.y1:= Y;
-    SingleXY.x2:= X;
-    SingleXY.y2:= Y;
-  end
-  else if rezhim = 'прямоугольники' then
-  begin
-    SingleXY.x1:= X;
-    SingleXY.y1:= Y;
-    SingleXY.x2:= X;
-    SingleXY.y2:= Y;
-  end
-  else if rezhim = 'эллипсы' then
-  begin
+  if (rezhim = 'линии') or
+     (rezhim = 'прямоугольники') or
+     (rezhim = 'эллипсы') then begin
     SingleXY.x1:= X;
     SingleXY.y1:= Y;
     SingleXY.x2:= X;
@@ -142,6 +127,8 @@ begin
       x0:= X;
       y0:= Y;
       flag:= True;
+      label1.Caption:= 'Режим перемещения';
+      //rezhim:= 'Режим перемещения';
     end;
   end;
 
@@ -156,7 +143,6 @@ end;
 
 procedure TForm1.PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 var
-  //iFig: integer;
   dx, dy: integer;
 begin
   if flag then
@@ -167,8 +153,8 @@ begin
       SingleXY.y2:= Y;
 
       PaintBox1.Canvas.Clear;
-      drawFig(-1);  // старые линии
-      PaintBox1.Canvas.Line(SingleXY.x1, SingleXY.y1, SingleXY.x2, SingleXY.y2);  // новая линия(линии)
+      drawFig(-1);
+      PaintBox1.Canvas.Line(SingleXY.x1, SingleXY.y1, SingleXY.x2, SingleXY.y2);
     end
     else if rezhim = 'прямоугольники' then
     begin
@@ -178,7 +164,7 @@ begin
       PaintBox1.Canvas.Clear;
       drawFig(-1);
 
-      PaintBox1.Canvas.Brush.Color:= clRed;
+      PaintBox1.Canvas.Brush.Color:= clWhite;
       PaintBox1.Canvas.Rectangle(SingleXY.x1, SingleXY.y1, SingleXY.x2, SingleXY.y2);
       PaintBox1.Canvas.Brush.Color:= bgColor;  // fix бага с закраской холста
     end
@@ -190,9 +176,9 @@ begin
       PaintBox1.Canvas.Clear;
       drawFig(-1);
 
-      PaintBox1.Canvas.Brush.Color:= clRed;
+      PaintBox1.Canvas.Brush.Color:= clWhite;
       PaintBox1.Canvas.Ellipse(SingleXY.x1, SingleXY.y1, SingleXY.x2, SingleXY.y2);
-      PaintBox1.Canvas.Brush.Color:= bgColor;  // fix бага с закраской холста
+      PaintBox1.Canvas.Brush.Color:= bgColor;
     end;
   end;
 
@@ -202,6 +188,7 @@ begin
 
     if flag and (iCatchFig <> -1) then   // проверить упрощенное условие
     begin
+
       dx:= X - x0;
       dy:= Y - y0;
 
@@ -219,22 +206,12 @@ begin
 
     if iFig <> -1 then
     begin
-      PaintBox1.Canvas.Pen.Width:= 3;
-      PaintBox1.Canvas.Brush.Color:= clRed;
-
-      // условия для каждой фигуры
       if ArrXY[iFig].fig = 'прямоугольники' then
          drawFig(iFig)
-         //PaintBox1.Canvas.Rectangle(ArrXY[iFig].x1, ArrXY[iFig].y1, ArrXY[iFig].x2, ArrXY[iFig].y2)
       else if ArrXY[iFig].fig = 'линии' then
            drawFig(iFig)
-           //PaintBox1.Canvas.Line(ArrXY[iFig].x1, ArrXY[iFig].y1, ArrXY[iFig].x2, ArrXY[iFig].y2)
       else if ArrXY[iFig].fig = 'эллипсы' then
            drawFig(iFig);
-           //PaintBox1.Canvas.Ellipse(ArrXY[iFig].x1, ArrXY[iFig].y1, ArrXY[iFig].x2, ArrXY[iFig].y2);
-
-      PaintBox1.Canvas.Brush.Color:= bgColor;
-      PaintBox1.Canvas.Pen.Width:= 1;
     end;
   end;
 
@@ -246,30 +223,9 @@ procedure TForm1.PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
 begin
   if flag then
   begin
-    // можно сократить на (rezhim = 'линии') or (rezhim = 'прямоугольники') or (rezhim = 'эллипсы')
-    if rezhim = 'линии' then
-    begin
-      SingleXY.x2:= X;
-      SingleXY.y2:= Y;
-
-      Count:= Count+1;
-      SingleXY.fig:= rezhim;
-      SetLength(ArrXY, Count);
-      ArrXY[Count-1]:= SingleXY;
-      drawFig(-1);
-    end
-    else if rezhim = 'прямоугольники' then
-    begin
-      SingleXY.x2:= X;
-      SingleXY.y2:= Y;
-
-      Count:= Count+1;
-      SingleXY.fig:= rezhim;
-      SetLength(ArrXY, Count);
-      ArrXY[Count-1]:= SingleXY;
-      drawFig(-1);
-    end
-    else if rezhim = 'эллипсы' then
+    if (rezhim = 'линии') or
+       (rezhim = 'прямоугольники') or
+       (rezhim = 'эллипсы') then
     begin
       SingleXY.x2:= X;
       SingleXY.y2:= Y;
@@ -282,6 +238,7 @@ begin
     end;
 
     flag:= False;
+    label1.Caption:= 'Режим готовности к перемещению';
   end;
 
   if rezhim = 'перемещение' then
@@ -303,15 +260,10 @@ var
 begin
   for i:=0 to Length(ArrXY)-1 do
   begin
+    PaintBox1.Canvas.Pen.Width:= 1;
     if i = iFig then
     begin
-      // Выделенная фигура — жирное перо
       PaintBox1.Canvas.Pen.Width:= 3;
-    end
-    else
-    begin
-      // Обычная фигура
-      PaintBox1.Canvas.Pen.Width:= 1;
     end;
 
     if ArrXY[i].fig = 'линии' then
@@ -320,12 +272,12 @@ begin
     end
     else if ArrXY[i].fig = 'прямоугольники' then
     begin
-      PaintBox1.Canvas.Brush.Color:= clRed;
+      PaintBox1.Canvas.Brush.Color:= clWhite;
       PaintBox1.Canvas.Rectangle(ArrXY[i].x1, ArrXY[i].y1, ArrXY[i].x2, ArrXY[i].y2);
     end
     else if ArrXY[i].fig = 'эллипсы' then
     begin
-      PaintBox1.Canvas.Brush.Color:= clRed;
+      PaintBox1.Canvas.Brush.Color:= clWhite;
       PaintBox1.Canvas.Ellipse(ArrXY[i].x1, ArrXY[i].y1, ArrXY[i].x2, ArrXY[i].y2);
     end;
   end;
@@ -340,14 +292,12 @@ var
 begin
   i:= HoverFig(x, y);
 
-  if i >= 0 then
+  if i <> -1 then
   begin
-    // Сдвигаем все элементы после удаляемого на одну позицию влево
-    for j := i to Length(ArrXY)-2 do
+    for j:= i to Length(ArrXY)-2 do
     begin
-      ArrXY[j] := ArrXY[j+1];
+      ArrXY[j]:= ArrXY[j+1];
     end;
-    // Уменьшаем массив на 1
     SetLength(ArrXY, Length(ArrXY)-1);
   end;
 
@@ -370,62 +320,59 @@ var
   cx,cy,a,b, val:Real;
   //val: Real;
 begin
-  Result := -1;
+  Result:= -1;
 
-  for i := Length(ArrXY) - 1 downto 0 do
+  for i:= Length(ArrXY)-1 downto 0 do
   begin
-
-    { вектор линии }
-    dx := ArrXY[i].x2 - ArrXY[i].x1;
-    dy := ArrXY[i].y2 - ArrXY[i].y1;
-
-    { проекция t }
-    t := ((x - ArrXY[i].x1) * dx + (y - ArrXY[i].y1) * dy) / (dx*dx + dy*dy);
-
-    { Ограничиваем t, чтобы найти ближайшую точку ИМЕННО НА ОТРЕЗКЕ }
-    if t < 0 then
-       t := 0
-    else if t > 1 then
-       t := 1;
-
-    { Координаты ближайшей к клику точки на отрезке }
-    px := ArrXY[i].x1 + t * dx;
-    py := ArrXY[i].y1 + t * dy;
-
-    { Расстояние от мышки до этой точки }
-    // L = sqrt((x0-x1)^2 + (y0-y1)^2)
-    d := Sqrt(Sqr(x - px) + Sqr(y - py));
-
-    if d <= 5 then
+    if ArrXY[i].fig = 'линии' then
     begin
-      Result := i;
-      Exit;
+      // AB = (x2 - x1; y2 - y1)
+      dx:= ArrXY[i].x2 - ArrXY[i].x1;
+      dy:= ArrXY[i].y2 - ArrXY[i].y1;
+
+      // Проекция точки (t = ((x-x1)(x2-x1)+(y-y1)(y2-y1))
+      t:= ((x - ArrXY[i].x1) * dx + (y - ArrXY[i].y1) * dy) / (dx*dx + dy*dy);
+
+      if t < 0 then
+         t:= 0
+      else if t > 1 then
+         t:= 1;
+
+      // координаты точки M - проекции
+      px:= ArrXY[i].x1 + t * dx;
+      py:= ArrXY[i].y1 + t * dy;
+
+      // L = sqrt((x0-x1)^2 + (y0-y1)^2)
+      d:= Sqrt(Sqr(x - px) + Sqr(y - py));
+
+      if d <= 5 then
+      begin
+        Result:= i;
+        Exit;
+      end;
     end
 
-    { ===================== ПРЯМОУГОЛЬНИК ===================== }
+    // прямоугольник
     else if ArrXY[i].fig = 'прямоугольники' then
     begin
-      { Нормализуем координаты }
       if ArrXY[i].x1 < ArrXY[i].x2 then
       begin
-        Rleft := ArrXY[i].x1;
-        Right := ArrXY[i].x2;
-      end
-      else
+        Rleft:= ArrXY[i].x1;
+        Right:= ArrXY[i].x2;
+      end else
       begin
-        Rleft := ArrXY[i].x2;
-        Right := ArrXY[i].x1;
+        Rleft:= ArrXY[i].x2;
+        Right:= ArrXY[i].x1;
       end;
 
       if ArrXY[i].y1 < ArrXY[i].y2 then
       begin
-        RTop := ArrXY[i].y1;
-        RBottom := ArrXY[i].y2;
-      end
-      else
+        RTop:= ArrXY[i].y1;
+        RBottom:= ArrXY[i].y2;
+      end else
       begin
-        RTop := ArrXY[i].y2;
-        RBottom := ArrXY[i].y1;
+        RTop:= ArrXY[i].y2;
+        RBottom:= ArrXY[i].y1;
       end;
 
       if (x >= Rleft) and (x <= Right) and
@@ -435,26 +382,22 @@ begin
         Exit;
       end;
     end
-    { ===================== ЭЛЛИПС ===================== }
+
+    // эллипс
     else if ArrXY[i].fig = 'эллипсы' then
     begin
-      { Уравнение эллипса: (x-cx)²/a² + (y-cy)²/b² ≤ 1 }
-      cx := (ArrXY[i].x1 + ArrXY[i].x2) / 2.0;
-      cy := (ArrXY[i].y1 + ArrXY[i].y2) / 2.0;
-      a  := Abs(ArrXY[i].x2 - ArrXY[i].x1) / 2.0;
-      b  := Abs(ArrXY[i].y2 - ArrXY[i].y1) / 2.0;
+      // уравнение эллипса: (x-cx)^2 /a^2 + (y-cy)^2 /b^2 ≤ 1
+      cx:= (ArrXY[i].x1 + ArrXY[i].x2) / 2.0;
+      cy:= (ArrXY[i].y1 + ArrXY[i].y2) / 2.0;
+      a:= Abs(ArrXY[i].x2 - ArrXY[i].x1) / 2.0;
+      b:= Abs(ArrXY[i].y2 - ArrXY[i].y1) / 2.0;
+      val := Sqr(x - cx) / Sqr(a) + Sqr(y - cy) / Sqr(b);
 
-      { Защита от деления на ноль }
-      if (a > 0) and (b > 0) then
-      begin
-        val := Sqr(x - cx) / Sqr(a) + Sqr(y - cy) / Sqr(b);
-
-        if val <= 1.0 then
+      if val <= 1.0 then
         begin
           Result := i;
           Exit;
         end;
-      end;
     end;
 
   end;
@@ -536,7 +479,7 @@ end;
 
 procedure TForm1.SpeedButton4Click(Sender: TObject);
 begin
-  label1.Caption:= 'Режим перемещения';
+  label1.Caption:= 'Режим готовности перемещения';
   rezhim:= 'перемещение';
   PaintBox1.Cursor:= crDrag;
 end;
