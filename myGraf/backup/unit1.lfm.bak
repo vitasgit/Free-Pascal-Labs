@@ -1,0 +1,161 @@
+object Form1: TForm1
+  Left = 252
+  Height = 480
+  Top = 250
+  Width = 700
+  Caption = 'Form1'
+  ClientHeight = 480
+  ClientWidth = 700
+  Constraints.MinHeight = 480
+  Constraints.MinWidth = 660
+  DesignTimePPI = 102
+  OnCreate = FormCreate
+  object PaintBox1: TPaintBox
+    Left = 0
+    Height = 392
+    Top = 0
+    Width = 700
+    Align = alClient
+    OnPaint = PaintBox1Paint
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 88
+    Top = 392
+    Width = 700
+    Align = alBottom
+    ClientHeight = 88
+    ClientWidth = 700
+    TabOrder = 0
+    object Button1: TButton
+      Left = 528
+      Height = 68
+      Top = 8
+      Width = 120
+      Caption = 'Рисовать'
+      TabOrder = 0
+      OnClick = Button1Click
+    end
+    object Label6: TLabel
+      Left = 16
+      Height = 16
+      Top = 16
+      Width = 60
+      Caption = 'Формула'
+      OnClick = Label6Click
+      OnMouseMove = Label6MouseMove
+    end
+    object Label7: TLabel
+      Left = 16
+      Height = 16
+      Top = 56
+      Width = 69
+      Caption = 'МасштабX'
+      OnMouseMove = Label7MouseMove
+    end
+    object Edit1: TEdit
+      Left = 104
+      Height = 28
+      Top = 8
+      Width = 400
+      TabOrder = 1
+      Text = 'sin(x)'
+      OnEditingDone = Edit1EditingDone
+    end
+    object FloatSpinEdit1: TFloatSpinEdit
+      Left = 104
+      Height = 26
+      Top = 48
+      Width = 70
+      Increment = 0.1
+      MaxValue = 10
+      MinValue = 0.1
+      OnChange = FloatSpinEdit1Change
+      TabOrder = 2
+      Value = 3.14
+    end
+    object FloatSpinEdit2: TFloatSpinEdit
+      Left = 272
+      Height = 26
+      Top = 48
+      Width = 70
+      Increment = 0.1
+      MaxValue = 10
+      MinValue = 0.1
+      OnChange = FloatSpinEdit2Change
+      TabOrder = 3
+      Value = 3.14
+    end
+    object Label8: TLabel
+      Left = 184
+      Height = 16
+      Top = 56
+      Width = 69
+      Caption = 'МасштабY'
+      OnMouseMove = Label8MouseMove
+    end
+    object Label9: TLabel
+      Left = 360
+      Height = 16
+      Top = 56
+      Width = 30
+      Caption = 'Цвет'
+    end
+    object ColorBox1: TColorBox
+      Left = 408
+      Height = 28
+      Top = 48
+      Width = 96
+      Selected = clRed
+      ItemHeight = 0
+      TabOrder = 4
+    end
+  end
+  object Label1: TLabel
+    Left = 20
+    Height = 16
+    Top = 173
+    Width = 42
+    Anchors = []
+    AutoSize = False
+    Caption = 'Label1'
+  end
+  object Label2: TLabel
+    Left = 352
+    Height = 16
+    Top = 40
+    Width = 42
+    AutoSize = False
+    Caption = 'Label2'
+  end
+  object Label3: TLabel
+    Left = 605
+    Height = 16
+    Top = 158
+    Width = 42
+    AutoSize = False
+    Caption = 'Label3'
+  end
+  object Label4: TLabel
+    Left = 366
+    Height = 16
+    Top = 312
+    Width = 42
+    AutoSize = False
+    Caption = 'Label4'
+  end
+  object Label5: TLabel
+    Left = 367
+    Height = 16
+    Top = 163
+    Width = 30
+    Caption = '(0,0)'
+  end
+  object PSScript1: TPSScript
+    CompilerOptions = []
+    Plugins = <>
+    UsePreProcessor = False
+    Left = 561
+    Top = 247
+  end
+end
