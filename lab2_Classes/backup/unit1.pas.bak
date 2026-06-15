@@ -1,0 +1,159 @@
+unit Unit1;
+
+{$mode ObjFPC}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils;
+
+var count: integer = 0;
+
+type
+    TFunc = function(a: integer): integer;
+    TArr = array of integer;
+
+  { TAbstractFinder }
+
+  TAbstractFinder = class
+    protected
+      arr: array of integer;
+      func: TFunc;
+      //a: integer;  // искомый элемент
+
+    public
+      constructor Create(_arr: array of integer);  // 1
+
+      procedure replaceArr(_arr: array of integer);     // 2
+      procedure setFunc(_func: TFunc);                  // 3
+      function isCorrect(): Boolean; virtual;abstract;  // 4
+      function findOne(): integer; virtual;abstract;    // 5
+      function findOneEl(el: integer): integer;         // 6
+      function findOneFunc(_func: TFunc): integer;       // 7
+      function findAll(): TArr; virtual;abstract;       // 8
+      function findAllEl(el: integer): TArr;            // 9
+      function findAllFunc(_func: TFunc): TArr;          // 10
+
+      destructor Destroy; override;
+
+      procedure printArr;
+      procedure makeArr;
+  end;
+
+implementation
+
+var
+  GEL: integer;
+
+function GFunc(a: integer): integer;
+begin
+  if a = GEL then
+    Result:= 0
+  else if a > GEL then
+    Result:= -1
+  else
+    Result:= 1;
+end;
+
+{ TAbstractFinder }
+
+constructor TAbstractFinder.Create(_arr: array of integer);
+var
+  i: integer;
+begin
+  SetLength(arr, Length(_arr));
+  for i:= 0 to High(_arr) do
+  begin
+    arr[i] := _arr[i];
+  end;
+end;
+
+procedure TAbstractFinder.replaceArr(_arr: array of integer);
+var
+  i: integer;
+begin
+  SetLength(arr, Length(_arr));
+  for i:= 0 to High(_arr) do
+  begin
+    arr[i]:= _arr[i];
+  end;
+end;
+
+procedure TAbstractFinder.setFunc(_func: TFunc);
+begin
+  func:= _func;
+end;
+
+function TAbstractFinder.findOneEl(el: integer): integer;
+var
+  oldF: TFunc;
+begin
+  count:= 0;
+  oldF:= func;
+  GEL:= el;
+  setFunc(@GFunc);
+  result:= findOne();
+  func:= oldF;
+end;
+
+function TAbstractFinder.findOneFunc(_func: TFunc): integer;
+var
+  oldF: TFunc;
+begin
+  count:= 0;
+  oldF:= func;
+  setFunc(_func);
+  result:= findOne();
+  func:= oldF;
+end;
+
+// ---------------- !!! проверить !!!! ------------------
+function TAbstractFinder.findAllEl(el: integer): TArr;
+var
+  oldF: TFunc;
+begin
+  count:= 0;
+  oldF:= func;
+  GEL:= el;
+  setFunc(@GFunc);
+  result:= findAll();
+  func:= oldF;
+end;
+
+//function TAbstractFinder.findAllEl(el: integer): TArr;
+//var
+//  oldF: TFunc;
+//begin
+//  oldF:= func;
+//  setFunc(_func);
+//  result:= findAll();
+//  func:= oldF;
+//end;
+
+// ---------------- !!! проверить !!!! ------------------
+function TAbstractFinder.findAllFunc(_func: TFunc): TArr;
+var
+  oldF: TFunc;
+begin
+  count:= 0;
+  oldF:= func;
+  setFunc(_func);
+  result:= findAll();
+  func:= oldF;
+end;
+
+destructor TAbstractFinder.Destroy;
+begin
+  SetLength(arr, 0);
+  inherited Destroy;
+end;
+
+procedure TAbstractFinder.printArr;
+var
+  i: integer;
+begin
+  for i:= 0 to High(arr) do write(arr[i], ' ');
+  writeln;
+end;
+
+end.

@@ -1,0 +1,26 @@
+unit arrunit;
+
+{$mode ObjFPC}{$H+}
+
+interface
+
+uses
+  Unit1
+
+function GenerateIncrementalArray(Size: Integer): TArr;
+
+implementation
+
+function GenerateIncrementalArray(Size: Integer): TArr;
+var
+  i: Integer;
+begin
+  SetLength(Result, Size);
+  if Size <= 0 then Exit;
+
+  Result[0] := Random(10);          // первое число от 0 до 9
+  for i := 1 to Size - 1 do
+    Result[i] := Result[i-1] + Random(6);  // +0..5
+end;
+
+end.
